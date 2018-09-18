@@ -10,7 +10,32 @@ public class Clases {
 	public Clases(String clase, String full, String cod) {
 		nombre = clase;
 		extraerCodigoDeClase(full, cod);
+		sacarClasesQueEstenDentroDeLaClase();
 		getFuncionesDeClase(nombre, codigo);
+	}
+
+	private void sacarClasesQueEstenDentroDeLaClase() {
+		int indexOf = codigo.indexOf("{");
+		Matcher match = Pattern.compile("class\\s+\\w+[ ,_]*(?:extends\\s+\\w+)?\\s*(?:implements[\\s\\w,]+)?")
+				.matcher(codigo.substring(indexOf));
+		if (match.find()) {
+			String cod = codigo;
+			int fin = match.start() + indexOf;
+			int inicio = fin;
+			cod = cod.substring(fin);
+			int index = cod.indexOf("{") + 1;
+			fin += index;
+			cod = cod.substring(index);
+			int nivelini = nivel(cod) - 1;
+			while (nivelini != nivel(cod)) {
+				index = cod.indexOf("}") + 1;
+				fin += index;
+				cod = cod.substring(index);
+			}
+			String claseMetida = codigo.substring(inicio, fin);
+			codigo = codigo.replace(claseMetida, "");
+		}
+
 	}
 
 	private void extraerCodigoDeClase(String full, String cod) {
@@ -27,7 +52,7 @@ public class Clases {
 			fin += index;
 			cod = cod.substring(index);
 		}
-		this.codigo = codigo.substring(inicio, fin);
+		this.codigo = codigo.substring(inicio, fin).trim();
 	}
 
 	private int nivel(String cod) {
@@ -41,8 +66,29 @@ public class Clases {
 	private void getFuncionesDeClase(String clase, String cod) {
 		Pattern pat = Pattern.compile(Variables.funciones);
 		Matcher match = pat.matcher(cod);
-		while (match.find())
-			if (!match.group(0).trim().startsWith("new"))
-				funciones.add(new Funcion(match.group(1), match.group(0), cod));
+		while (match.find()) {
+			String group0 = match.group(0).trim();
+			if (!group0.startsWith("new")) {
+				Funcion funcion = new Funcion(match.group(1), group0, cod);
+				cod = cod.replace(funcion.codigo, "");
+				funciones.add(funcion);
+			} else {
+				String substring = group0.substring(group0.indexOf("{"));
+				Matcher match2 = Pattern.compile(Variables.funciones).matcher(substring);
+				if (match2.find()) {
+					Funcion funcion = new Funcion(match.group(1), substring, cod);
+					cod = cod.replace(funcion.codigo, "");
+					funciones.add(funcion);
+				}
+			}
+
+			match = pat.matcher(cod);
+		}
 	}
+
+	@Override
+	public String toString() {
+		return nombre;
+	}
+
 }

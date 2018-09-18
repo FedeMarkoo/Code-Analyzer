@@ -3,11 +3,13 @@ public class Funcion {
 	public String nombre;
 	public String codigo;
 	public int cc;
+	public int lineasComentadas;
 
 	public Funcion(String group, String full, String cod) {
 		nombre = group;
 		extraerCodigoDeFuncion(full, cod);
-		cc = EvaluarCC.evaluar(codigo);
+		cc = Evaluar.cc(codigo);
+		lineasComentadas = Evaluar.comentarios(codigo);
 	}
 
 	private void extraerCodigoDeFuncion(String full, String cod) {
@@ -24,7 +26,7 @@ public class Funcion {
 			fin += index;
 			cod = cod.substring(index);
 		}
-		this.codigo = codigo.substring(inicio, fin);
+		this.codigo = codigo.substring(inicio, fin).trim();
 	}
 
 	private int nivel(String cod) {
@@ -34,4 +36,10 @@ public class Funcion {
 		int nivel = cerradas - abiertas;
 		return nivel;
 	}
+
+	@Override
+	public String toString() {
+		return "CC: " + cc + "\tLineas Comentadas: " + lineasComentadas + "\tMetodo: " + nombre;
+	}
+
 }
