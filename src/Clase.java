@@ -2,14 +2,15 @@ import java.util.ArrayList;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-public class Clases {
+public class Clase {
 	public String nombre;
 	public String codigo;
-	public ArrayList<Funcion> funciones = new ArrayList<>();
+	public ArrayList<Metodo> metodo = new ArrayList<>();
 
-	public Clases(String clase, String full, String cod) {
+	public Clase(String clase, String full, String cod) {
 		nombre = clase;
 		extraerCodigoDeClase(full, cod);
+		Evaluar.setCodigos(codigo);
 		sacarClasesQueEstenDentroDeLaClase();
 		getFuncionesDeClase(nombre, codigo);
 	}
@@ -69,17 +70,19 @@ public class Clases {
 		while (match.find()) {
 			String group0 = match.group(0).trim();
 			if (!group0.startsWith("new")) {
-				Funcion funcion = new Funcion(match.group(1), group0, cod);
+				Metodo funcion = new Metodo(match.group(1), group0, cod, this);
 				cod = cod.replace(funcion.codigo, "");
-				funciones.add(funcion);
+				metodo.add(funcion);
 			} else {
+				int end = match.end();
 				String substring = group0.substring(group0.indexOf("{"));
 				Matcher match2 = Pattern.compile(Variables.funciones).matcher(substring);
 				if (match2.find()) {
-					Funcion funcion = new Funcion(match.group(1), substring, cod);
+					Metodo funcion = new Metodo(match.group(1), substring, cod, this);
 					cod = cod.replace(funcion.codigo, "");
-					funciones.add(funcion);
-				}
+					metodo.add(funcion);
+				} else
+					cod = cod.substring(end);
 			}
 
 			match = pat.matcher(cod);
@@ -91,4 +94,11 @@ public class Clases {
 		return nombre;
 	}
 
+	public int fan_inClase(Metodo metodo) {
+		int fain = 0;
+		Matcher match = Pattern.compile("[^\\w\\d_]" + metodo.nombre + "[^\\w\\d_]").matcher(codigo);
+		while (match.find())
+			fain++;
+		return fain;
+	}
 }

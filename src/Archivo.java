@@ -5,7 +5,7 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 public class Archivo {
-	public ArrayList<Clases> clases = new ArrayList<>();
+	public ArrayList<Clase> clases = new ArrayList<>();
 	private String nombre;
 
 	public Archivo(String path) {
@@ -43,7 +43,7 @@ public class Archivo {
 		while (match.find()) {
 			String full = match.group(0);
 			String clase = match.group(1);
-			clases.add(new Clases(clase, full, cod));
+			clases.add(new Clase(clase, full, cod));
 		}
 	}
 
