@@ -14,7 +14,7 @@ public class Todo {
 		for (Archivo archivo : archivos)
 			for (Clase clase : archivo.clases)
 				for (Metodo metodo : clase.metodo)
-					metodo.fans();
+					metodo.fans_Y_Halstead();
 	}
 
 	public String toString() {

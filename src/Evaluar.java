@@ -4,19 +4,17 @@ import java.util.regex.Pattern;
 public class Evaluar {
 	private static String codigos = "";
 	private static Pattern pat = Pattern.compile("[\\w_]");
+	private static Pattern patcc = Pattern.compile("\\W(?:if|while|for|case|try)\\W|(?:\\|\\||\\&\\&|(?:[^\\\"]+\\?[^;:]+:[^;:]+;))");
 
 	public static int cc(String cod) {
-		cod = eliminarComentarios(cod);
-		Pattern pat = Pattern
-				.compile("\\W(?:if|while|for|case|try)\\W|(?:\\|\\||\\&\\&|(?:[^\\\"]+\\?[^;:]+:[^;:]+;))");
-		Matcher match = pat.matcher(cod);
+		Matcher match = patcc.matcher(cod);
 		int cc = 1;
 		while (match.find())
 			cc++;
 		return cc;
 	}
 
-	private static String eliminarComentarios(String cod) {
+	public static String eliminarComentarios(String cod) {
 		boolean comentarioMultilinea = false;
 		String codigo = "";
 		for (String linea : cod.split("\n")) {
@@ -25,8 +23,8 @@ public class Evaluar {
 				comentarioMultilinea = !linea.contains("*/");
 			} else if (linea.startsWith("/*")) {
 				comentarioMultilinea = true;
-			} else if (!linea.startsWith("\\\\")) {
-				int indexOf = linea.indexOf("\\\\");
+			} else if (!linea.startsWith("//")) {
+				int indexOf = linea.indexOf("//");
 				if (indexOf != -1) {
 					codigo += linea.substring(0, indexOf);
 				} else
@@ -48,9 +46,9 @@ public class Evaluar {
 			} else if (linea.startsWith("/*")) {
 				comentarioMultilinea = true;
 				lineascomentarios++;
-			} else if (!linea.startsWith("\\\\")) {
+			} else if (!linea.startsWith("//")) {
 				lineascodigo++;
-				if (linea.contains("\\\\"))
+				if (linea.contains("//"))
 					lineascomentarios++;
 			}
 		}

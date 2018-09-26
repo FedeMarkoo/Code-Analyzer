@@ -71,7 +71,7 @@ public class Clase {
 			String group0 = match.group(0).trim();
 			if (!group0.startsWith("new")) {
 				Metodo funcion = new Metodo(match.group(1), group0, cod, this);
-				cod = cod.replace(funcion.codigo, "");
+				cod = cod.replace(funcion.codigoCompleto, "");
 				metodo.add(funcion);
 			} else {
 				int end = match.end();
@@ -79,7 +79,7 @@ public class Clase {
 				Matcher match2 = Pattern.compile(Variables.funciones).matcher(substring);
 				if (match2.find()) {
 					Metodo funcion = new Metodo(match.group(1), substring, cod, this);
-					cod = cod.replace(funcion.codigo, "");
+					cod = cod.replace(funcion.codigoCompleto, "");
 					metodo.add(funcion);
 				} else
 					cod = cod.substring(end);
