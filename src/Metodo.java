@@ -2,8 +2,8 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 public class Metodo {
-	private static final Pattern pat = Pattern
-			.compile("(\"[^\\\"]*\"|\'[^\\\']*\'|[\\w\\d_.]+\\(?|[\\*\\+\\=\\<\\>\\!\\-\\?]+|[^/]\\/[^/]|\\&\\&|\\|\\|)");
+	private static final Pattern pat = Pattern.compile(
+			"(\"[^\\\"]*\"|\'[^\\\']*\'|[\\w\\d_.]+\\(?|[\\*\\+\\=\\<\\>\\!\\-\\?]+|[^/]\\/[^/]|\\&\\&|\\|\\|)");
 	public Clase clase;
 	public String nombre;
 	public String codigo;
@@ -53,6 +53,7 @@ public class Metodo {
 		cod = cod.substring(fin);
 		int index = cod.indexOf("{") + 1;
 		fin += index;
+		modoAvanzado = nivel(cod) != 0;
 		cod = cod.substring(index);
 		int nivelini = nivel(cod) - 1;
 		while (nivelini != nivel(cod)) {
@@ -64,7 +65,15 @@ public class Metodo {
 		this.codigo = Evaluar.eliminarComentarios(codigoCompleto);
 	}
 
+	private Pattern p = Pattern.compile("\"[^\\\"]*\"");
+	private boolean modoAvanzado = false;
+
 	private int nivel(String cod) {
+		if (modoAvanzado) {
+			Matcher m = p.matcher(cod);
+			while (m.find())
+				cod = cod.replace(m.group(0), "");
+		}
 		int largo = cod.length();
 		int abiertas = largo - cod.replace("{", "").length();
 		int cerradas = largo - cod.replace("}", "").length();
@@ -92,7 +101,7 @@ public class Metodo {
 	}
 
 	private void halstead() {
-		Matcher match = pat.matcher(codigo);
+		Matcher match = pat.matcher(codigo.substring(codigo.indexOf("{")));
 		while (match.find()) {
 			halstead.add(match.group(0));
 		}

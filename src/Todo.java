@@ -10,6 +10,21 @@ public class Todo {
 		evaluarFans();
 	}
 
+	public static void main(String a[]) {
+		String pathCarpeta;
+		if (a.length != 0 && a[0].length() != 0) {
+			File f = new File(a[0]);
+			if (!f.isFile() && !f.isDirectory())
+				pathCarpeta = a[0];
+			else
+				pathCarpeta = Variables.dir;
+		} else
+			pathCarpeta = Variables.dir;
+
+		Todo t = new Todo(pathCarpeta);
+		System.out.println(t);
+	}
+
 	private void evaluarFans() {
 		for (Archivo archivo : archivos)
 			for (Clase clase : archivo.clases)

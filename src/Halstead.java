@@ -15,24 +15,25 @@ public class Halstead {
 	 * int, long, etc), los caracteres y strings constantes.
 	 */
 
-	public int N1 = 0, N2 = 0, n2 = 0, n1 = 0;
+	public double N1 = 0, N2 = 0, n2 = 0, n1 = 0;
 	private HashMap<String, Integer> operadores_N1 = new HashMap<>();
 	private HashMap<String, Integer> operandos__N2 = new HashMap<>();
 	private Pattern pat = Pattern.compile(
 			"((?:[\\w\\.\\d]+\\.)*[\\w\\d]+\\s*\\()|([\\*\\+\\=\\<\\>\\!\\-\\?]+|\\&\\&|\\|\\||\\s*(?:if|while|do|try|catch|case|switch|for|throw)[^\\w\\d]*)");
 
 	public String toString() {
-		return String.format("N: %-4d n: %-4d N1: %-4d N2: %-4d n1: %-4d n2: %-4d V: %-4.2f D: %-4.2f L: %-4.2f E: %-4.2f T: %-4.2f", N(),n(),N1,N2,n1,n2,V(),D(),L(),E(),T());
+		return String.format("N: %-4d n: %-4d N1: %-4d N2: %-4d n1: %-4d n2: %-4d V: %-4.2f D: %-4.2f L: %-4.2f E: %-4.2f T: %-4.2f"
+				    		, N(),	  n(),(int)N1,(int)N2, (int)n1, (int)n2,	  V(),	  	D(),	  L(),	    E(),	  T());
 	}
 
 	// Largo del Programa: N = N1 + N2
 	public int N() {
-		return N1 + N2;
+		return (int) (N1 + N2);
 	}
 
 	// Tamaño del Vocabulario del programa: n = n1 + n2
 	public int n() {
-		return n1 + n2;
+		return (int) (n1 + n2);
 	}
 
 	// Volumen del Programa: V = N * log2(n)

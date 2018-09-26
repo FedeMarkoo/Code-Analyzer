@@ -44,6 +44,7 @@ public class Clase {
 		int fin = cod.indexOf(full);
 		int inicio = fin;
 		cod = cod.substring(fin);
+		modoAvanzado = nivel(cod) != 0;
 		int index = cod.indexOf("{") + 1;
 		fin += index;
 		cod = cod.substring(index);
@@ -56,7 +57,15 @@ public class Clase {
 		this.codigo = codigo.substring(inicio, fin).trim();
 	}
 
+	private Pattern p = Pattern.compile("\"[^\\\"]*\"");
+	private boolean modoAvanzado = false;
+	
 	private int nivel(String cod) {
+		if (modoAvanzado) {
+			Matcher m = p.matcher(cod);
+			while (m.find())
+				cod = cod.replace(m.group(0), "");
+		}
 		int largo = cod.length();
 		int abiertas = largo - cod.replace("{", "").length();
 		int cerradas = largo - cod.replace("}", "").length();

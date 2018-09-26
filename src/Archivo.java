@@ -22,7 +22,7 @@ public class Archivo {
 		Scanner text;
 		try {
 			text = new Scanner(file);
-			String todo = null;
+			String todo = "";
 			while (text.hasNextLine())
 				todo += text.nextLine() + '\n';
 			text.close();
