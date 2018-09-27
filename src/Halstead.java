@@ -3,6 +3,7 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 public class Halstead {
+
 	/*
 	 * N1Operadores: Que pueden ser todas las palabras reservadas (if, do, while,
 	 * class, etc), los calificadores (como const, static) las palabras reservadas,
@@ -21,9 +22,25 @@ public class Halstead {
 	private Pattern pat = Pattern.compile(
 			"((?:[\\w\\.\\d]+\\.)*[\\w\\d]+\\s*\\()|([\\*\\+\\=\\<\\>\\!\\-\\?]+|\\&\\&|\\|\\||\\s*(?:if|while|do|try|catch|case|switch|for|throw)[^\\w\\d]*)");
 
+	private static final Pattern p = Pattern.compile(
+			"(\"[^\\\"]*\"|\'[^\\\']*\'|[\\w\\d_.]+\\(?|[\\*\\+\\=\\<\\>\\!\\-\\?]+|[^/]\\/[^/]|\\&\\&|\\|\\|)");
+
+	public Halstead(String codigo) {
+		new Thread() {
+			public void run() {
+				Matcher match = p.matcher(codigo.substring(codigo.indexOf("{")));
+				while (match.find()) {
+					add(match.group(0));
+				}
+			}
+		}.start();
+
+	}
+
 	public String toString() {
-		return String.format("N: %-4d n: %-4d N1: %-4d N2: %-4d n1: %-4d n2: %-4d V: %-4.2f D: %-4.2f L: %-4.2f E: %-4.2f T: %-4.2f"
-				    		, N(),	  n(),(int)N1,(int)N2, (int)n1, (int)n2,	  V(),	  	D(),	  L(),	    E(),	  T());
+		return String.format(
+				"N: %-4d n: %-4d N1: %-4d N2: %-4d n1: %-4d n2: %-4d V: %-4.2f D: %-4.2f L: %-4.2f E: %-4.2f T: %-4.2f",
+				N(), n(), (int) N1, (int) N2, (int) n1, (int) n2, V(), D(), L(), E(), T());
 	}
 
 	// Largo del Programa: N = N1 + N2

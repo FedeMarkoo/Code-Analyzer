@@ -1,9 +1,4 @@
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
-
 public class Metodo {
-	private static final Pattern pat = Pattern.compile(
-			"(\"[^\\\"]*\"|\'[^\\\']*\'|[\\w\\d_.]+\\(?|[\\*\\+\\=\\<\\>\\!\\-\\?]+|[^/]\\/[^/]|\\&\\&|\\|\\|)");
 	public Clase clase;
 	public String nombre;
 	public String codigo;
@@ -15,6 +10,7 @@ public class Metodo {
 	public int[] fanIn = new int[2]; // [0] de la clase [1] de todo lo que mando
 	public int[] fanOut = new int[2];
 	public Halstead halstead;
+	private boolean modoAvanzado = false;
 
 	public Metodo(String group, String full, String cod, Clase clase) {
 		nombre = group;
@@ -25,7 +21,7 @@ public class Metodo {
 		cc = Evaluar.cc(codigo);
 		lineasComentadas = lineas[0];
 		lineasCodigo = lineas[1];
-		halstead = new Halstead();
+		halstead = new Halstead(codigo);
 	}
 
 	private void tipo(String full) {
@@ -53,7 +49,7 @@ public class Metodo {
 		cod = cod.substring(fin);
 		int index = cod.indexOf("{") + 1;
 		fin += index;
-		modoAvanzado = nivel(cod) != 0;
+		modoAvanzado = nivel(cod) != 1;
 		cod = cod.substring(index);
 		int nivelini = nivel(cod) - 1;
 		while (nivelini != nivel(cod)) {
@@ -65,15 +61,9 @@ public class Metodo {
 		this.codigo = Evaluar.eliminarComentarios(codigoCompleto);
 	}
 
-	private Pattern p = Pattern.compile("\"[^\\\"]*\"");
-	private boolean modoAvanzado = false;
-
 	private int nivel(String cod) {
-		if (modoAvanzado) {
-			Matcher m = p.matcher(cod);
-			while (m.find())
-				cod = cod.replace(m.group(0), "");
-		}
+		if (modoAvanzado)
+			cod = cod.replaceAll("(?:\\(|,\\s*)\".*\"(?:\\)|,)", "()");
 		int largo = cod.length();
 		int abiertas = largo - cod.replace("{", "").length();
 		int cerradas = largo - cod.replace("}", "").length();
@@ -89,7 +79,6 @@ public class Metodo {
 
 	public void fans_Y_Halstead() {
 		fan();
-		halstead();
 	}
 
 	private void fan() {
@@ -98,12 +87,5 @@ public class Metodo {
 			fanIn[1] = fanIn[0];
 		else
 			fanIn[1] = Evaluar.fan_inTodo(this);
-	}
-
-	private void halstead() {
-		Matcher match = pat.matcher(codigo.substring(codigo.indexOf("{")));
-		while (match.find()) {
-			halstead.add(match.group(0));
-		}
 	}
 }

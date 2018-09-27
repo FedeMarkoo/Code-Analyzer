@@ -6,6 +6,7 @@ public class Clase {
 	public String nombre;
 	public String codigo;
 	public ArrayList<Metodo> metodo = new ArrayList<>();
+	private boolean modoAvanzado = false;
 
 	public Clase(String clase, String full, String cod) {
 		nombre = clase;
@@ -44,9 +45,9 @@ public class Clase {
 		int fin = cod.indexOf(full);
 		int inicio = fin;
 		cod = cod.substring(fin);
-		modoAvanzado = nivel(cod) != 0;
 		int index = cod.indexOf("{") + 1;
 		fin += index;
+		modoAvanzado = nivel(cod) != 0;
 		cod = cod.substring(index);
 		int nivelini = nivel(cod) - 1;
 		while (nivelini != nivel(cod)) {
@@ -57,15 +58,9 @@ public class Clase {
 		this.codigo = codigo.substring(inicio, fin).trim();
 	}
 
-	private Pattern p = Pattern.compile("\"[^\\\"]*\"");
-	private boolean modoAvanzado = false;
-	
 	private int nivel(String cod) {
-		if (modoAvanzado) {
-			Matcher m = p.matcher(cod);
-			while (m.find())
-				cod = cod.replace(m.group(0), "");
-		}
+		if (modoAvanzado)
+			cod = cod.replaceAll("(?:\\(|,\\s*)\".*\"(?:\\)|,)", "()");
 		int largo = cod.length();
 		int abiertas = largo - cod.replace("{", "").length();
 		int cerradas = largo - cod.replace("}", "").length();
