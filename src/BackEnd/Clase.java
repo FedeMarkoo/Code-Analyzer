@@ -1,3 +1,4 @@
+package BackEnd;
 import java.util.ArrayList;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -9,8 +10,8 @@ public class Clase {
 	private boolean modoAvanzado = false;
 	public int cc;
 	public int nivelAlerta;
-	private int lineasComentadas;
-	private int lineasCodido;
+	public int lineasComentadas;
+	public int lineasCodido;
 	// private String contiene = "";
 
 	public Clase(String clase, String full, String cod) {
@@ -110,8 +111,7 @@ public class Clase {
 
 	@Override
 	public String toString() {
-		return nombre + "\tComentarios: " + lineasComentadas + "\tLineas de codigo:" + lineasCodido + "\t\tmax cc: "
-				+ cc + "\t\tmax Alerta: " + nivelAlerta;
+		return nombre;
 	}
 
 	public int fan_inClase(Metodo metodo) {

@@ -1,3 +1,5 @@
+package BackEnd;
+
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -6,6 +8,7 @@ public class Metodo {
 	public String nombre;
 	public String codigo;
 	public String codigoCompleto;
+	public String parametros;
 	public String tipo;
 	public int cc;
 	public int lineasComentadas;
@@ -18,6 +21,7 @@ public class Metodo {
 
 	public Metodo(String group, String full, String cod, Clase clase) {
 		nombre = group;
+		parametros = "(" + full.split("\\(|\\)")[1] + ")";
 		this.clase = clase;
 		extraerCodigoDeFuncion(full, cod);
 		tipo(codigo);
@@ -65,6 +69,27 @@ public class Metodo {
 		this.codigo = Evaluar.eliminarComentarios(codigoCompleto);
 	}
 
+	public void extraerCodigoDeFuncion(String full, String cod, int i) { //de prueba
+		full = full.substring(Evaluar.inicioMetodo(full));
+
+		String codigo = cod;
+		int fin = cod.indexOf(full);
+		int inicio = fin;
+		cod = cod.substring(fin);
+		int index = cod.indexOf("{") + 1;
+		fin += index;
+		modoAvanzado = nivel(cod) != 1;
+		cod = cod.substring(index);
+		int nivelini = nivel(cod) - 1;
+		while (nivelini != nivel(cod)) {
+			index = cod.indexOf("}") + 1;
+			fin += index;
+			cod = cod.substring(index);
+		}
+		this.codigoCompleto = codigo.substring(inicio, fin).trim();
+		this.codigo = Evaluar.eliminarComentarios(codigoCompleto);
+	}
+
 	private int nivel(String cod) {
 		if (modoAvanzado)
 			cod = cod.replaceAll("(?:\\(|,\\s*)\".*\"(?:\\)|,)", "()");
@@ -77,9 +102,7 @@ public class Metodo {
 
 	@Override
 	public String toString() {
-		return "CC: " + cc + "\tAlerta: " + nivelAlerta + "\tComentarios: " + lineasComentadas + "\tCodigo: "
-				+ lineasCodigo + "\tFanInC:" + fanIn[0] + "/" + fanIn[1] + "\tFanOut:" + fanOut + "\tHalstead: "
-				+ halstead + "\tTipo: " + tipo + "\tMetodo: " + nombre;
+		return  nombre + parametros;
 	}
 
 	public void fans_Y_Halstead() {
