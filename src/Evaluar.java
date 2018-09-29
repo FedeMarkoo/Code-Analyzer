@@ -34,7 +34,7 @@ public class Evaluar {
 		return codigo;
 	}
 
-	public static int[] comentarios(String codigo) {
+	public static int[] contarComentarios(String codigo) {
 		int lineascomentarios = 0;
 		int lineascodigo = 0;
 		boolean comentarioMultilinea = false;
@@ -57,7 +57,7 @@ public class Evaluar {
 
 	public static int fan_inTodo(Metodo metodo) {
 		int fain = 0;
-		Matcher match = Pattern.compile("[^\\w\\d_]" + metodo.nombre + "[^\\w\\d_]").matcher(codigos);
+		Matcher match = Pattern.compile("[^\\w\\d_]" + metodo.nombre + "\\s*\\(").matcher(codigos);
 		while (match.find())
 			fain++;
 		return fain;

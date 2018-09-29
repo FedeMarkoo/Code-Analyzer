@@ -5,7 +5,7 @@ import java.util.regex.Pattern;
 public class Halstead {
 
 	/*
-	 * N1Operadores: Que pueden ser todas las palabras reservadas (if, do, while,
+	 * N1 Operadores: Que pueden ser todas las palabras reservadas (if, do, while,
 	 * class, etc), los calificadores (como const, static) las palabras reservadas,
 	 * y los operadores en expresiones (+, -, <>, ==, !=, <=, >>, etc).
 	 */
@@ -44,21 +44,72 @@ public class Halstead {
 	}
 
 	// Largo del Programa: N = N1 + N2
+	/**
+	 * LONGITUD Halstead permite obtener una medida de la longitud, N, de un
+	 * programa, que es calculada como:
+	 * 
+	 * longitud N = N1 + N2
+	 * 
+	 * N es una simple medida del tamaño de un programa. Cuanto más grande sea el
+	 * tamaño de N, mayor será la dificultad para comprender el programa y mayor el
+	 * esfuerzo para mantenerlo.
+	 * 
+	 * N es una medida alternativa al simple conteo de líneas de código. Aunque es
+	 * casi igual de fácil de calcular, N es más sensible a la complejidad que el
+	 * contar el número de líneas porque N no asume que todas las instrucciones son
+	 * igual de fácil o de difícil de entender.
+	 * 
+	 */
 	public int N() {
 		return (int) (N1 + N2);
 	}
 
 	// Tamaño del Vocabulario del programa: n = n1 + n2
+	/**
+	 * devuelve la cantidad de palabras distintas en el codigo
+	 */
 	public int n() {
 		return (int) (n1 + n2);
 	}
 
 	// Volumen del Programa: V = N * log2(n)
+	/**
+	 * VOLUMEN La medida de longitud, N, es usada en otra estimación de tamaño de
+	 * Halstead llamada volumen, V,
+	 * 
+	 * Mientras que la longitud es una simple cuenta (o estimación) del total de
+	 * operadores y operandos, el volumen da un peso extra al número de operadores y
+	 * operandos únicos.
+	 * 
+	 * Esta medida de volumen se puede interpretar como el número de "comparaciones
+	 * mentales" necesarias para escribir un programa de longitud N. Esta
+	 * interpretación sugiere que la mente humana sigue un proceso de búsqueda
+	 * binaria para seleccionar un token de un vocabulario de tamaño n.
+	 * 
+	 * Por ejemplo, si dos programas tienen la misma longitud N pero uno tiene mayor
+	 * número de operadores y operandos únicos, que naturalmente lo hacen más
+	 * difícil de entender y mantener, este tendrá un mayor volumen.
+	 * 
+	 * La fórmula es la siguiente:
+	 * 
+	 * volumen V = N x log2 (n)
+	 * 
+	 * donde n = n1 + n2
+	 * 
+	 */
 	public double V() {
 		return (int) (N() * (Math.log(n()) / Math.log(2)));
 	}
 
-	// Nivel de Dificultad: D = (n1/2) * (N2/n2)
+	// Nivel de Dificultad: D = (n1/2) * (N2/n2)'
+	/**
+	 * DIFICULTAD Para definir la dificultad D del programa, se usa la fórmula
+	 * siguiente:
+	 * 
+	 * dificultad D = (n1 * N2) / (n2 *2)
+	 * 
+	 * Dificultad = ((operadores unicos)*(operandos totales))/(operadores unicos *2)
+	 */
 	public double D() {
 		return (n1 / 2) * (N2 / n2);
 	}
@@ -69,6 +120,15 @@ public class Halstead {
 	}
 
 	// Esfuerzo de Implementación: E = V*D
+	/**
+	 * Esfuerzo E = D * V ó V / L
+	 * 
+	 * Donde el volumen V es multiplicado por la medida de dificultad D con la que
+	 * se hizo el programa.
+	 * 
+	 * Atendiendo a varios estudios empíricos, el esfuerzo, E, es incluso una medida
+	 * mejor de la entendibilidad (comprensión) que N.
+	 */
 	public double E() {
 		return V() * D();
 	}
@@ -79,7 +139,7 @@ public class Halstead {
 		return E() / 18;
 	}
 
-	public void add(String group) {
+	private void add(String group) {
 		Matcher mat = pat.matcher(group);
 		if (mat.find()) {
 			if (!operadores_N1.containsKey(group)) {

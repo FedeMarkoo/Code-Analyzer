@@ -7,11 +7,24 @@ public class Clase {
 	public String codigo;
 	public ArrayList<Metodo> metodo = new ArrayList<>();
 	private boolean modoAvanzado = false;
+	public int cc;
+	public int nivelAlerta;
+	private int lineasComentadas;
+	private int lineasCodido;
+	// private String contiene = "";
 
 	public Clase(String clase, String full, String cod) {
 		nombre = clase;
 		extraerCodigoDeClase(full, cod);
-		Evaluar.setCodigos(codigo);
+		new Thread() {
+
+			public void run() {
+				int[] lineas = Evaluar.contarComentarios(codigo);
+				lineasComentadas = lineas[0];
+				lineasCodido = lineas[1];
+				Evaluar.setCodigos(codigo);
+			}
+		}.start();
 		sacarClasesQueEstenDentroDeLaClase();
 		getFuncionesDeClase(nombre, codigo);
 	}
@@ -77,6 +90,7 @@ public class Clase {
 				Metodo funcion = new Metodo(match.group(1), group0, cod, this);
 				cod = cod.replace(funcion.codigoCompleto, "");
 				metodo.add(funcion);
+				// contiene += funcion;
 			} else {
 				int end = match.end();
 				String substring = group0.substring(group0.indexOf("{"));
@@ -85,6 +99,7 @@ public class Clase {
 					Metodo funcion = new Metodo(match.group(1), substring, cod, this);
 					cod = cod.replace(funcion.codigoCompleto, "");
 					metodo.add(funcion);
+					// contiene += funcion;
 				} else
 					cod = cod.substring(end);
 			}
@@ -95,12 +110,13 @@ public class Clase {
 
 	@Override
 	public String toString() {
-		return nombre;
+		return nombre + "\tComentarios: " + lineasComentadas + "\tLineas de codigo:" + lineasCodido + "\t\tmax cc: "
+				+ cc + "\t\tmax Alerta: " + nivelAlerta;
 	}
 
 	public int fan_inClase(Metodo metodo) {
 		int fain = 0;
-		Matcher match = Pattern.compile("[^\\w\\d_]" + metodo.nombre + "[^\\w\\d_]").matcher(codigo);
+		Matcher match = Pattern.compile("[^\\w\\d_]" + metodo.nombre + "\\s*\\(").matcher(codigo);
 		while (match.find())
 			fain++;
 		return fain;

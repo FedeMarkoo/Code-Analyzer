@@ -1,11 +1,15 @@
 import java.io.File;
 import java.util.ArrayList;
 
-public class Todo {
+public class Analizador {
 	public String codigo;
 	public ArrayList<Archivo> archivos = new ArrayList<>();
 
-	public Todo(String pathCarpeta) {
+	public Analizador(String pathCarpeta) {
+		agregar(pathCarpeta);
+	}
+
+	public void agregar(String pathCarpeta) {
 		cargar(pathCarpeta);
 		evaluarFans();
 	}
@@ -22,7 +26,7 @@ public class Todo {
 		} else
 			pathCarpeta = Variables.dir;
 
-		Todo t = new Todo(pathCarpeta);
+		Analizador t = new Analizador(pathCarpeta);
 		System.out.println(t);
 		long endTime = System.nanoTime()- startTime;
 		System.out.println("Tardo: " + String.format("%,dns", endTime) + "\tArchivo: " + t.archivos.size());
