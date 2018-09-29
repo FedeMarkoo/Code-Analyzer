@@ -1,3 +1,6 @@
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
 public class Metodo {
 	public Clase clase;
 	public String nombre;
@@ -8,16 +11,17 @@ public class Metodo {
 	public int lineasComentadas;
 	public int lineasCodigo;
 	public int[] fanIn = new int[2]; // [0] de la clase [1] de todo lo que mando
-	public int[] fanOut = new int[2];
+	public int fanOut;
 	public Halstead halstead;
 	private boolean modoAvanzado = false;
+	public int nivelAlerta;
 
 	public Metodo(String group, String full, String cod, Clase clase) {
 		nombre = group;
 		this.clase = clase;
 		extraerCodigoDeFuncion(full, cod);
 		tipo(codigo);
-		int[] lineas = Evaluar.comentarios(codigoCompleto);
+		int[] lineas = Evaluar.contarComentarios(codigoCompleto);
 		cc = Evaluar.cc(codigo);
 		lineasComentadas = lineas[0];
 		lineasCodigo = lineas[1];
@@ -73,8 +77,9 @@ public class Metodo {
 
 	@Override
 	public String toString() {
-		return "CC: " + cc + "\tComentarios: " + lineasComentadas + "\tCodigo: " + lineasCodigo + "\tFanInC:" + fanIn[0]
-				+ "\tFanInT:" + fanIn[1] + "\tHalstead: " + halstead + "\tTipo: " + tipo + "\tMetodo: " + nombre;
+		return "CC: " + cc + "\tAlerta: " + nivelAlerta + "\tComentarios: " + lineasComentadas + "\tCodigo: "
+				+ lineasCodigo + "\tFanInC:" + fanIn[0] + "/" + fanIn[1] + "\tFanOut:" + fanOut + "\tHalstead: "
+				+ halstead + "\tTipo: " + tipo + "\tMetodo: " + nombre;
 	}
 
 	public void fans_Y_Halstead() {
@@ -83,9 +88,20 @@ public class Metodo {
 
 	private void fan() {
 		fanIn[0] = clase.fan_inClase(this);
-		if (tipo.equals("Private"))
+		if (tipo.contains("Private"))
 			fanIn[1] = fanIn[0];
 		else
 			fanIn[1] = Evaluar.fan_inTodo(this);
+
+		Matcher m = Pattern.compile("[\\w\\d_]+\\s*\\(").matcher(codigo);
+		while (m.find())
+			if (!m.group().matches("(?:if|for|while|switch)\\s*\\("))
+				fanOut++;
+		fanOut--;
+		nivelAlerta = (int) (cc * (Math.log(fanIn[1]))) + cc / fanIn[1];
+		if (clase.cc < cc)
+			clase.cc = cc;
+		if (clase.nivelAlerta < nivelAlerta)
+			clase.nivelAlerta = nivelAlerta;
 	}
 }
