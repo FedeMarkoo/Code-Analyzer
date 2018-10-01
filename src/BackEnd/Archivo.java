@@ -19,7 +19,7 @@ public class Archivo {
 	}
 
 	private String obtenerTexto(File file) {
-		nombre = file.getAbsolutePath();
+		nombre = file.getName();
 		Scanner text;
 		try {
 			text = new Scanner(file);
