@@ -20,6 +20,9 @@ import BackEnd.Analizador;
 import BackEnd.Archivo;
 import BackEnd.Clase;
 import BackEnd.Metodo;
+import BackEnd.Packag;
+import BackEnd.Proyecto;
+import BackEnd.sourceP;
 
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
@@ -96,18 +99,18 @@ public class Interfaz {
 		panel_1.add(textField, gbc_textField);
 		textField.setColumns(10);
 
-		JButton btnNewButton_1 = new JButton("Buscar");
-		GridBagConstraints gbc_btnNewButton_1 = new GridBagConstraints();
-		gbc_btnNewButton_1.insets = new Insets(0, 0, 0, 5);
-		gbc_btnNewButton_1.gridx = 1;
-		gbc_btnNewButton_1.gridy = 0;
-		panel_1.add(btnNewButton_1, gbc_btnNewButton_1);
+		JButton buscar = new JButton("Buscar");
+		GridBagConstraints gbc_buscar = new GridBagConstraints();
+		gbc_buscar.insets = new Insets(0, 0, 0, 5);
+		gbc_buscar.gridx = 1;
+		gbc_buscar.gridy = 0;
+		panel_1.add(buscar, gbc_buscar);
 
-		JButton btnNewButton = new JButton("Analizar");
-		GridBagConstraints gbc_btnNewButton = new GridBagConstraints();
-		gbc_btnNewButton.gridx = 2;
-		gbc_btnNewButton.gridy = 0;
-		panel_1.add(btnNewButton, gbc_btnNewButton);
+		JButton analizar = new JButton("Analizar");
+		GridBagConstraints gbc_analizar = new GridBagConstraints();
+		gbc_analizar.gridx = 2;
+		gbc_analizar.gridy = 0;
+		panel_1.add(analizar, gbc_analizar);
 
 		JPanel panel = new JPanel();
 		GridBagConstraints gbc_panel = new GridBagConstraints();
@@ -116,41 +119,120 @@ public class Interfaz {
 		gbc_panel.gridy = 1;
 		frame.getContentPane().add(panel, gbc_panel);
 		GridBagLayout gbl_panel = new GridBagLayout();
-		gbl_panel.columnWidths = new int[] { 234, 213, 0, 0 };
-		gbl_panel.rowHeights = new int[] { 36, 0, 0 };
-		gbl_panel.columnWeights = new double[] { 0.0, 0.0, 1.0, Double.MIN_VALUE };
+		gbl_panel.columnWidths = new int[] { 454, 0, 0 };
+		gbl_panel.rowHeights = new int[] { 0, 0, 0 };
+		gbl_panel.columnWeights = new double[] { 0.0, 1.0, Double.MIN_VALUE };
 		gbl_panel.rowWeights = new double[] { 0.0, 1.0, Double.MIN_VALUE };
 		panel.setLayout(gbl_panel);
 
+		JPanel panel_3 = new JPanel();
+		GridBagConstraints gbc_panel_3 = new GridBagConstraints();
+		gbc_panel_3.gridwidth = 2;
+		gbc_panel_3.insets = new Insets(0, 0, 5, 0);
+		gbc_panel_3.fill = GridBagConstraints.BOTH;
+		gbc_panel_3.gridx = 0;
+		gbc_panel_3.gridy = 0;
+		panel.add(panel_3, gbc_panel_3);
+		GridBagLayout gbl_panel_3 = new GridBagLayout();
+		gbl_panel_3.columnWidths = new int[] { 238, 239, 259, 0 };
+		gbl_panel_3.rowHeights = new int[] { 0, 0, 0, 0, 0 };
+		gbl_panel_3.columnWeights = new double[] { 1.0, 1.0, 1.0, Double.MIN_VALUE };
+		gbl_panel_3.rowWeights = new double[] { 0.0, 0.0, 0.0, 0.0, Double.MIN_VALUE };
+		panel_3.setLayout(gbl_panel_3);
+
+		JLabel lblProyecto = new JLabel("Proyecto");
+		GridBagConstraints gbc_lblProyecto = new GridBagConstraints();
+		gbc_lblProyecto.insets = new Insets(0, 0, 5, 5);
+		gbc_lblProyecto.gridx = 0;
+		gbc_lblProyecto.gridy = 0;
+		panel_3.add(lblProyecto, gbc_lblProyecto);
+
+		JLabel lblSourcePackage = new JLabel("Source Package");
+		GridBagConstraints gbc_lblSourcePackage = new GridBagConstraints();
+		gbc_lblSourcePackage.insets = new Insets(0, 0, 5, 5);
+		gbc_lblSourcePackage.gridx = 1;
+		gbc_lblSourcePackage.gridy = 0;
+		panel_3.add(lblSourcePackage, gbc_lblSourcePackage);
+
+		JLabel lblPackage = new JLabel("Package");
+		GridBagConstraints gbc_lblPackage = new GridBagConstraints();
+		gbc_lblPackage.insets = new Insets(0, 0, 5, 0);
+		gbc_lblPackage.gridx = 2;
+		gbc_lblPackage.gridy = 0;
+		panel_3.add(lblPackage, gbc_lblPackage);
+
+		JComboBox<Proyecto> proyecto = new JComboBox<Proyecto>();
+		GridBagConstraints gbc_proyecto = new GridBagConstraints();
+		gbc_proyecto.insets = new Insets(0, 0, 5, 5);
+		gbc_proyecto.fill = GridBagConstraints.HORIZONTAL;
+		gbc_proyecto.gridx = 0;
+		gbc_proyecto.gridy = 1;
+		panel_3.add(proyecto, gbc_proyecto);
+
+		JComboBox<sourceP> sourcepackage = new JComboBox<sourceP>();
+		GridBagConstraints gbc_sourcepackage = new GridBagConstraints();
+		gbc_sourcepackage.insets = new Insets(0, 0, 5, 5);
+		gbc_sourcepackage.fill = GridBagConstraints.HORIZONTAL;
+		gbc_sourcepackage.gridx = 1;
+		gbc_sourcepackage.gridy = 1;
+		panel_3.add(sourcepackage, gbc_sourcepackage);
+
+		JComboBox<Packag> paquete = new JComboBox<Packag>();
+		GridBagConstraints gbc_paquete = new GridBagConstraints();
+		gbc_paquete.insets = new Insets(0, 0, 5, 0);
+		gbc_paquete.fill = GridBagConstraints.HORIZONTAL;
+		gbc_paquete.gridx = 2;
+		gbc_paquete.gridy = 1;
+		panel_3.add(paquete, gbc_paquete);
+
+		JLabel lblArchivo = new JLabel("Archivo");
+		GridBagConstraints gbc_lblArchivo = new GridBagConstraints();
+		gbc_lblArchivo.insets = new Insets(0, 0, 5, 5);
+		gbc_lblArchivo.gridx = 0;
+		gbc_lblArchivo.gridy = 2;
+		panel_3.add(lblArchivo, gbc_lblArchivo);
+
+		JLabel lblClase = new JLabel("Clase");
+		GridBagConstraints gbc_lblClase = new GridBagConstraints();
+		gbc_lblClase.insets = new Insets(0, 0, 5, 5);
+		gbc_lblClase.gridx = 1;
+		gbc_lblClase.gridy = 2;
+		panel_3.add(lblClase, gbc_lblClase);
+
+		JLabel lblMetodo = new JLabel("Metodo");
+		GridBagConstraints gbc_lblMetodo = new GridBagConstraints();
+		gbc_lblMetodo.insets = new Insets(0, 0, 5, 0);
+		gbc_lblMetodo.gridx = 2;
+		gbc_lblMetodo.gridy = 2;
+		panel_3.add(lblMetodo, gbc_lblMetodo);
+
 		JComboBox<Archivo> archivos = new JComboBox<Archivo>();
 		GridBagConstraints gbc_archivos = new GridBagConstraints();
-		gbc_archivos.insets = new Insets(0, 0, 5, 5);
-		gbc_archivos.fill = GridBagConstraints.BOTH;
+		gbc_archivos.fill = GridBagConstraints.HORIZONTAL;
+		gbc_archivos.insets = new Insets(0, 0, 0, 5);
 		gbc_archivos.gridx = 0;
-		gbc_archivos.gridy = 0;
-		panel.add(archivos, gbc_archivos);
+		gbc_archivos.gridy = 3;
+		panel_3.add(archivos, gbc_archivos);
 
 		JComboBox<Clase> clases = new JComboBox<>();
 		GridBagConstraints gbc_clases = new GridBagConstraints();
-		gbc_clases.insets = new Insets(0, 0, 5, 5);
-		gbc_clases.fill = GridBagConstraints.BOTH;
+		gbc_clases.fill = GridBagConstraints.HORIZONTAL;
+		gbc_clases.insets = new Insets(0, 0, 0, 5);
 		gbc_clases.gridx = 1;
-		gbc_clases.gridy = 0;
-		panel.add(clases, gbc_clases);
+		gbc_clases.gridy = 3;
+		panel_3.add(clases, gbc_clases);
 
 		JComboBox<Metodo> metodos = new JComboBox<>();
 		GridBagConstraints gbc_metodos = new GridBagConstraints();
-		gbc_metodos.insets = new Insets(0, 0, 5, 0);
-		gbc_metodos.fill = GridBagConstraints.BOTH;
+		gbc_metodos.fill = GridBagConstraints.HORIZONTAL;
 		gbc_metodos.gridx = 2;
-		gbc_metodos.gridy = 0;
-		panel.add(metodos, gbc_metodos);
+		gbc_metodos.gridy = 3;
+		panel_3.add(metodos, gbc_metodos);
 
 		JPanel panel_2 = new JPanel();
 		panel_2.setLayout(null);
 		GridBagConstraints gbc_panel_2 = new GridBagConstraints();
 		gbc_panel_2.insets = new Insets(0, 0, 0, 5);
-		gbc_panel_2.gridwidth = 2;
 		gbc_panel_2.fill = GridBagConstraints.BOTH;
 		gbc_panel_2.gridx = 0;
 		gbc_panel_2.gridy = 1;
@@ -339,23 +421,29 @@ public class Interfaz {
 		panel_2.add(lblTmpEntendimiento);
 		GridBagConstraints gbc_textArea = new GridBagConstraints();
 		gbc_textArea.fill = GridBagConstraints.BOTH;
-		gbc_textArea.gridx = 2;
+		gbc_textArea.gridx = 1;
 		gbc_textArea.gridy = 1;
 		JScrollPane j = new JScrollPane();
 		panel.add(j, gbc_textArea);
+
+		JTextPane textPane_18 = new JTextPane();
+		textPane_18.setFont(new Font("Tahoma", Font.BOLD, 10));
+		textPane_18.setEditable(false);
+		textPane_18.setBounds(167, 86, 51, 19);
+		panel_2.add(textPane_18);
 
 		JTextArea textArea = new JTextArea();
 		textArea.setEditable(false);
 		j.setViewportView(textArea);
 
-		btnNewButton.addActionListener(new ActionListener() {
+		analizar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				new Thread() {
 					public void run() {
 						Analizador a = new Analizador(textField.getText());
-						archivos.removeAllItems();
-						for (Archivo archivo : a.archivos) {
-							archivos.addItem(archivo);
+						proyecto.removeAllItems();
+						for (Proyecto p : a.proyectos.get()) {
+							proyecto.addItem(p);
 						}
 					}
 				}.start();
@@ -363,21 +451,35 @@ public class Interfaz {
 			}
 		});
 
-		btnNewButton_1.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent arg0) {
-				JFileChooser f = new JFileChooser();
-				f.setFileSelectionMode(JFileChooser.FILES_AND_DIRECTORIES);
-				f.showOpenDialog(null);
-				textField.setText(f.getSelectedFile().getAbsolutePath());
-				new Thread() {
-					public void run() {
-						Analizador a = new Analizador(textField.getText());
-						archivos.removeAllItems();
-						for (Archivo archivo : a.archivos) {
-							archivos.addItem(archivo);
-						}
-					}
-				}.start();
+		proyecto.addItemListener(new ItemListener() {
+			public void itemStateChanged(ItemEvent arg0) {
+				sourcepackage.removeAllItems();
+				if (proyecto.getComponentCount() == 0 || proyecto.getSelectedItem() == null)
+					return;
+				for (sourceP sp : ((Proyecto) proyecto.getSelectedItem()).get()) {
+					sourcepackage.addItem(sp);
+				}
+			}
+		});
+
+		sourcepackage.addItemListener(new ItemListener() {
+			public void itemStateChanged(ItemEvent arg0) {
+				paquete.removeAllItems();
+				if (sourcepackage.getComponentCount() == 0 || sourcepackage.getSelectedItem() == null)
+					return;
+				for (Packag pk : ((sourceP) sourcepackage.getSelectedItem()).get()) {
+					paquete.addItem(pk);
+				}
+			}
+		});
+		paquete.addItemListener(new ItemListener() {
+			public void itemStateChanged(ItemEvent arg0) {
+				archivos.removeAllItems();
+				if (paquete.getComponentCount() == 0 || paquete.getSelectedItem() == null)
+					return;
+				for (Archivo a : ((Packag) paquete.getSelectedItem()).get()) {
+					archivos.addItem(a);
+				}
 			}
 		});
 
@@ -401,7 +503,6 @@ public class Interfaz {
 				}
 			}
 		});
-
 		metodos.addItemListener(new ItemListener() {
 			public void itemStateChanged(ItemEvent arg0) {
 				if (metodos.getComponentCount() == 0 || metodos.getSelectedItem() == null) {
@@ -423,6 +524,7 @@ public class Interfaz {
 					textPane_15.setText("");
 					textPane_16.setText("");
 					textPane_17.setText("");
+					textPane_18.setText("");
 					textArea.setText("");
 
 					textPane.setBackground(Color.WHITE);
@@ -468,6 +570,7 @@ public class Interfaz {
 				textPane_1.setText(metodo.lineasCodigo + "");
 				textPane_2.setText(fanInC + "");
 				textPane_3.setText(metodo.lineasComentadas + "");
+
 				textPane_4.setText(metodo.fanOut + "");
 				textPane_5.setText(metodo.halstead.N() + "");
 				textPane_6.setText(String.format("%-6.0f", metodo.halstead.N1));
@@ -482,7 +585,29 @@ public class Interfaz {
 				textPane_15.setText(String.format("%-6.3f", metodo.halstead.L()));
 				textPane_16.setText(String.format("%-6.3f", metodo.halstead.E()));
 				textPane_17.setText(String.format("%-6.3f", metodo.halstead.T()));
+				double porcentaje = 100 * (double) metodo.lineasComentadas;
+				int lineasTotal = metodo.lineasCodigo + metodo.lineasComentadas;
+				porcentaje /= lineasTotal;
+				textPane_18.setText(String.format("%-6.03f", porcentaje)+"%");
 				textArea.setText(metodo.codigoCompleto.replace("\t", "     "));
+			}
+		});
+
+		buscar.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				JFileChooser f = new JFileChooser();
+				f.setFileSelectionMode(JFileChooser.FILES_AND_DIRECTORIES);
+				f.showOpenDialog(null);
+				textField.setText(f.getSelectedFile().getAbsolutePath());
+				new Thread() {
+					public void run() {
+						Analizador a = new Analizador(textField.getText());
+						proyecto.removeAllItems();
+						for (Proyecto p : a.proyectos.get()) {
+							proyecto.addItem(p);
+						}
+					}
+				}.start();
 			}
 		});
 
@@ -530,6 +655,7 @@ public class Interfaz {
 				+ "\r\n"
 				+ "Por ejemplo, si dos programas tienen la misma longitud N pero uno tiene mayor número de operadores y operandos únicos, que naturalmente lo hacen más difícil de entender y mantener, este tendrá un mayor volumen. \r\n"
 				+ "\r\n" + "La fórmula es la siguiente:\r\n" + "\r\n" + "volumen V = N x log2 (n)");
+
 	}
 
 	private void tooltip(JLabel l, String text) {

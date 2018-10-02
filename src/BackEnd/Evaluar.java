@@ -49,10 +49,13 @@ public class Evaluar {
 				comentarioMultilinea = true;
 				lineascomentarios++;
 			} else if (!linea.startsWith("//")) {
-				lineascodigo++;
+				if (linea.length() > 2)
+					lineascodigo++;
 				if (linea.contains("//"))
 					lineascomentarios++;
 			}
+			else
+				lineascomentarios++;
 		}
 		return new int[] { lineascomentarios, lineascodigo };
 	}
@@ -60,11 +63,12 @@ public class Evaluar {
 	public static int fan_inTodo(Metodo metodo, Analizador a) {
 		int fain = 0;
 		Pattern compile = Pattern.compile("[^\\w\\d_]" + metodo.nombre + "\\s*\\((.*)\\);");
-		for (Archivo ar : a.archivos) {
-			for (Clase c : ar.clases) {
-				fain += fanIn(metodo, compile, c);
-			}
-		}
+		for (Proyecto p : a.proyectos.get())
+			for (sourceP sp : p.get())
+				for (Packag pk : sp.get())
+					for (Archivo ar : pk.archivos)
+						for (Clase c : ar.clases)
+							fain += fanIn(metodo, compile, c);
 		return fain;
 	}
 

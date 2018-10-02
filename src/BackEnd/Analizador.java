@@ -1,13 +1,13 @@
 package BackEnd;
 
 import java.io.File;
-import java.util.ArrayList;
 
 public class Analizador {
 	public String codigo;
-	public ArrayList<Archivo> archivos = new ArrayList<>();
 	private long startTime;
 	private long endTime;
+	public Proyectos proyectos = new Proyectos();
+	private int archivos = 0;
 
 	public Analizador(String pathCarpeta) {
 		agregar(pathCarpeta);
@@ -18,40 +18,31 @@ public class Analizador {
 		evaluarFans();
 	}
 
-	public static void main(String a[]) {
-		String pathCarpeta;
-		if (a.length != 0 && a[0].length() != 0) {
-			File f = new File(a[0]);
-			if (!f.isFile() && !f.isDirectory())
-				pathCarpeta = a[0];
-			else
-				pathCarpeta = Variables.dir;
-		} else
-			pathCarpeta = Variables.dir;
-
-		Analizador t = new Analizador(pathCarpeta);
-		System.out.println(t);
-	}
-
 	private void evaluarFans() {
-		for (Archivo archivo : archivos)
-			for (Clase clase : archivo.clases)
-				for (Metodo metodo : clase.metodo)
-					metodo.fans_Y_Halstead(this);
+		for (Proyecto p : proyectos.get())
+			for (sourceP sp : p.get())
+				for (Packag pk : sp.get())
+					for (Archivo archivo : pk.archivos)
+						for (Clase clase : archivo.clases)
+							for (Metodo metodo : clase.metodo)
+								metodo.fans_Y_Halstead(this);
 		tardo("evaluar");
 	}
 
 	public String toString() {
 		String out = "";
-		for (Archivo archivo : archivos) {
-			out += "\n\n" + archivo + "\n";
-			for (Clase clase : archivo.clases) {
-				out += "\n" + clase + "\n";
-				for (Metodo metodo : clase.metodo) {
-					out += metodo + "\n";
-				}
-			}
-		}
+		for (Proyecto p : proyectos.get())
+			for (sourceP sp : p.get())
+				for (Packag pk : sp.get())
+					for (Archivo archivo : pk.archivos) {
+						out += "\n\n" + archivo + "\n";
+						for (Clase clase : archivo.clases) {
+							out += "\n" + clase + "\n";
+							for (Metodo metodo : clase.metodo) {
+								out += metodo + "\n";
+							}
+						}
+					}
 		return out;
 	}
 
@@ -65,8 +56,11 @@ public class Analizador {
 	private void carga(String pathCarpeta) {
 		File dir = new File(pathCarpeta);
 		if (dir.isFile()) {
-			if (dir.getName().endsWith(".java"))
-				archivos.add(new Archivo(pathCarpeta));
+			if (dir.getName().endsWith(".java")) {
+				Archivo archivo = new Archivo(pathCarpeta);
+				proyectos.add(archivo);
+				archivos++;
+			}
 			return;
 		}
 		if (dir.isDirectory())
@@ -76,7 +70,6 @@ public class Analizador {
 
 	private void tardo(String accion) {
 		endTime = System.nanoTime() - startTime;
-		System.out.println(
-				"Tardo " + String.format("%,dns", endTime) + " en " + accion + " " + archivos.size() + " archivos");
+		System.out.println("Tardo " + String.format("%,dns", endTime) + " en " + accion + " " + archivos + " archivos");
 	}
 }

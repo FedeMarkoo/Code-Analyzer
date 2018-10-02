@@ -7,13 +7,22 @@ import java.util.regex.Pattern;
 
 public class Archivo {
 	public ArrayList<Clase> clases = new ArrayList<>();
+	public String proyecto,sourcePackage,packages;
 	private String nombre;
-
+	private static Pattern p = Pattern.compile("\\\\([^\\\\]+)\\\\([^\\\\]+)\\\\([^\\\\]+)\\\\([^\\\\]+)\\.java");
+	
 	public Archivo(String path) {
 		this(new File(path));
 	}
 
 	public Archivo(File file) {
+		Matcher m = p.matcher(file.getAbsolutePath());
+		if(m.find())
+		{
+			proyecto=m.group(1);
+			sourcePackage=m.group(2);
+			packages=m.group(3);
+		}
 		String obtenerTexto = obtenerTexto(file);
 		getClases(obtenerTexto);
 	}
