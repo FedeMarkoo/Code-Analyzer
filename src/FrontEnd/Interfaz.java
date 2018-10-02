@@ -345,6 +345,7 @@ public class Interfaz {
 		panel.add(j, gbc_textArea);
 
 		JTextArea textArea = new JTextArea();
+		textArea.setEditable(false);
 		j.setViewportView(textArea);
 
 		btnNewButton.addActionListener(new ActionListener() {
