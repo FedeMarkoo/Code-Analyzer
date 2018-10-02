@@ -38,8 +38,8 @@ public class Archivo {
 		return "";
 	}
 
+	static private Pattern pat = Pattern.compile(Variables.clases);
 	private void getClases(String cod) {
-		Pattern pat = Pattern.compile(Variables.clases);
 		Matcher match = pat.matcher(cod);
 		while (match.find()) {
 			String full = match.group(0);

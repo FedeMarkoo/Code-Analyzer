@@ -1,10 +1,13 @@
 package BackEnd;
+
 import java.io.File;
 import java.util.ArrayList;
 
 public class Analizador {
 	public String codigo;
 	public ArrayList<Archivo> archivos = new ArrayList<>();
+	private long startTime;
+	private long endTime;
 
 	public Analizador(String pathCarpeta) {
 		agregar(pathCarpeta);
@@ -16,7 +19,6 @@ public class Analizador {
 	}
 
 	public static void main(String a[]) {
-		long startTime = System.nanoTime();
 		String pathCarpeta;
 		if (a.length != 0 && a[0].length() != 0) {
 			File f = new File(a[0]);
@@ -29,15 +31,14 @@ public class Analizador {
 
 		Analizador t = new Analizador(pathCarpeta);
 		System.out.println(t);
-		long endTime = System.nanoTime()- startTime;
-		System.out.println("Tardo: " + String.format("%,dns", endTime) + "\tArchivo: " + t.archivos.size());
 	}
 
 	private void evaluarFans() {
 		for (Archivo archivo : archivos)
 			for (Clase clase : archivo.clases)
 				for (Metodo metodo : clase.metodo)
-					metodo.fans_Y_Halstead();
+					metodo.fans_Y_Halstead(this);
+		tardo("evaluar");
 	}
 
 	public String toString() {
@@ -55,6 +56,13 @@ public class Analizador {
 	}
 
 	private void cargar(String pathCarpeta) {
+		startTime = System.nanoTime();
+		carga(pathCarpeta);
+		tardo("leer");
+		return;
+	}
+
+	private void carga(String pathCarpeta) {
 		File dir = new File(pathCarpeta);
 		if (dir.isFile()) {
 			if (dir.getName().endsWith(".java"))
@@ -63,7 +71,12 @@ public class Analizador {
 		}
 		if (dir.isDirectory())
 			for (String path : dir.list())
-				cargar(pathCarpeta + "\\" + path);
-		return;
+				carga(pathCarpeta + "\\" + path);
+	}
+
+	private void tardo(String accion) {
+		endTime = System.nanoTime() - startTime;
+		System.out.println(
+				"Tardo " + String.format("%,dns", endTime) + " en " + accion + " " + archivos.size() + " archivos");
 	}
 }

@@ -1,11 +1,12 @@
 package BackEnd;
+
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 public class Evaluar {
-	private static String codigos = "";
 	private static Pattern pat = Pattern.compile("[\\w_]");
-	private static Pattern patcc = Pattern.compile("\\W(?:if|while|for|case|try)\\W|(?:\\|\\||\\&\\&|(?:[^\\\"]+\\?[^;:]+:[^;:]+;))");
+	private static Pattern patcc = Pattern
+			.compile("\\W(?:if|while|for|case|try)\\W|(?:\\|\\||\\&\\&|(?:[^\\\"]+\\?[^;:]+:[^;:]+;))");
 
 	public static int cc(String cod) {
 		Matcher match = patcc.matcher(cod);
@@ -56,16 +57,53 @@ public class Evaluar {
 		return new int[] { lineascomentarios, lineascodigo };
 	}
 
-	public static int fan_inTodo(Metodo metodo) {
+	public static int fan_inTodo(Metodo metodo, Analizador a) {
 		int fain = 0;
-		Matcher match = Pattern.compile("[^\\w\\d_]" + metodo.nombre + "\\s*\\(").matcher(codigos);
-		while (match.find())
-			fain++;
+		Pattern compile = Pattern.compile("[^\\w\\d_]" + metodo.nombre + "\\s*\\((.*)\\);");
+		for (Archivo ar : a.archivos) {
+			for (Clase c : ar.clases) {
+				fain += fanIn(metodo, compile, c);
+			}
+		}
 		return fain;
 	}
 
-	public static void setCodigos(String codigos) {
-		Evaluar.codigos += codigos;
+	public static int fanIn(Metodo metodo, Pattern compile, Clase c) {
+		int fain = 0;
+		if (c.codigo.contains(metodo.clase.nombre)) {
+			Matcher match = compile.matcher(c.codigo);
+			while (match.find())
+				if (cuentaComas(match.group(1), metodo.cparametros))
+					fain++;
+		}
+		return fain;
+	}
+
+	public static int fanIn(Metodo metodo, Clase c) {
+		int fain = 0;
+		Pattern compile = Pattern.compile("[^\\w\\d_]" + metodo.nombre + "\\s*\\((.*)\\);");
+		Matcher match = compile.matcher(c.codigo);
+		while (match.find())
+			if (cuentaComas(match.group(1), metodo.cparametros))
+				fain++;
+		return fain;
+	}
+
+	private static boolean cuentaComas(String c2, int i) {
+		c2 = c2.replaceAll("\"[^\"]*\"|'[^']*'", "");
+		char[] c = c2.toCharArray();
+		int id = -1, t = c2.length();
+		int nivel = 0;
+		int comas = 0;
+		while (++id < t) {
+			if (nivel == 0 && c[id] == ',')
+				comas++;
+			else if (c[id] == '(')
+				nivel++;
+			else if (c[id] == ')')
+				nivel--;
+		}
+		return comas == i;
 	}
 
 	public static int inicioMetodo(String cod) {

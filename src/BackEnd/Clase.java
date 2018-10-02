@@ -1,4 +1,5 @@
 package BackEnd;
+
 import java.util.ArrayList;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -23,7 +24,6 @@ public class Clase {
 				int[] lineas = Evaluar.contarComentarios(codigo);
 				lineasComentadas = lineas[0];
 				lineasCodido = lineas[1];
-				Evaluar.setCodigos(codigo);
 			}
 		}.start();
 		sacarClasesQueEstenDentroDeLaClase();
@@ -112,13 +112,5 @@ public class Clase {
 	@Override
 	public String toString() {
 		return nombre;
-	}
-
-	public int fan_inClase(Metodo metodo) {
-		int fain = 0;
-		Matcher match = Pattern.compile("[^\\w\\d_]" + metodo.nombre + "\\s*\\(").matcher(codigo);
-		while (match.find())
-			fain++;
-		return fain;
 	}
 }

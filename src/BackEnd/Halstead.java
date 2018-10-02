@@ -99,7 +99,7 @@ public class Halstead {
 	 * 
 	 */
 	public double V() {
-		return (int) (N() * (Math.log(n()) / Math.log(2)));
+		return (N() * (Math.log(n()) / Math.log(2)));
 	}
 
 	// Nivel de Dificultad: D = (n1/2) * (N2/n2)'

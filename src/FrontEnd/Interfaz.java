@@ -13,6 +13,7 @@ import javax.swing.JFileChooser;
 
 import java.awt.Insets;
 import javax.swing.JPanel;
+import javax.swing.JScrollPane;
 import javax.swing.JTextPane;
 
 import BackEnd.Analizador;
@@ -89,7 +90,7 @@ public class Interfaz {
 		textField = new JTextField();
 		GridBagConstraints gbc_textField = new GridBagConstraints();
 		gbc_textField.insets = new Insets(0, 0, 0, 5);
-		gbc_textField.fill = GridBagConstraints.HORIZONTAL;
+		gbc_textField.fill = GridBagConstraints.BOTH;
 		gbc_textField.gridx = 0;
 		gbc_textField.gridy = 0;
 		panel_1.add(textField, gbc_textField);
@@ -124,7 +125,7 @@ public class Interfaz {
 		JComboBox<Archivo> archivos = new JComboBox<Archivo>();
 		GridBagConstraints gbc_archivos = new GridBagConstraints();
 		gbc_archivos.insets = new Insets(0, 0, 5, 5);
-		gbc_archivos.fill = GridBagConstraints.HORIZONTAL;
+		gbc_archivos.fill = GridBagConstraints.BOTH;
 		gbc_archivos.gridx = 0;
 		gbc_archivos.gridy = 0;
 		panel.add(archivos, gbc_archivos);
@@ -176,6 +177,7 @@ public class Interfaz {
 		panel_2.add(lblCodigo);
 
 		JTextPane textPane_2 = new JTextPane();
+		textPane_2.setToolTipText("FanIn dentro de la clase");
 		textPane_2.setEditable(false);
 		textPane_2.setFont(new Font("Tahoma", Font.BOLD, 10));
 		textPane_2.setBounds(106, 111, 51, 19);
@@ -226,6 +228,7 @@ public class Interfaz {
 		panel_2.add(textPane_6);
 
 		JTextPane textPane_8 = new JTextPane();
+		textPane_8.setToolTipText("FanIn en todos los archivos analizados");
 		textPane_8.setEditable(false);
 		textPane_8.setFont(new Font("Tahoma", Font.BOLD, 10));
 		textPane_8.setBounds(167, 111, 51, 19);
@@ -334,21 +337,22 @@ public class Interfaz {
 		JLabel lblTmpEntendimiento = new JLabel("Tmp Entendimiento");
 		lblTmpEntendimiento.setBounds(274, 211, 76, 19);
 		panel_2.add(lblTmpEntendimiento);
-
-		JTextArea textArea = new JTextArea();
-		textArea.setEditable(false);
 		GridBagConstraints gbc_textArea = new GridBagConstraints();
 		gbc_textArea.fill = GridBagConstraints.BOTH;
 		gbc_textArea.gridx = 2;
 		gbc_textArea.gridy = 1;
-		panel.add(textArea, gbc_textArea);
+		JScrollPane j = new JScrollPane();
+		panel.add(j, gbc_textArea);
+
+		JTextArea textArea = new JTextArea();
+		j.setViewportView(textArea);
 
 		btnNewButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				new Thread() {
 					public void run() {
 						Analizador a = new Analizador(textField.getText());
-						clases.removeAllItems();
+						archivos.removeAllItems();
 						for (Archivo archivo : a.archivos) {
 							archivos.addItem(archivo);
 						}
@@ -357,7 +361,7 @@ public class Interfaz {
 
 			}
 		});
-		
+
 		btnNewButton_1.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				JFileChooser f = new JFileChooser();
@@ -367,7 +371,7 @@ public class Interfaz {
 				new Thread() {
 					public void run() {
 						Analizador a = new Analizador(textField.getText());
-						clases.removeAllItems();
+						archivos.removeAllItems();
 						for (Archivo archivo : a.archivos) {
 							archivos.addItem(archivo);
 						}
@@ -428,29 +432,22 @@ public class Interfaz {
 					return;
 				}
 				Metodo metodo = (Metodo) metodos.getSelectedItem();
-				textPane_9.setText(metodo.tipo);
-				textPane.setText(metodo.cc + "");
 				if (metodo.nivelAlerta < 6)
 					textPane.setBackground(Color.GREEN);
 				else if (metodo.nivelAlerta < 12)
 					textPane.setBackground(Color.YELLOW);
 				else
 					textPane.setBackground(Color.RED);
-				textPane_1.setText(metodo.lineasCodigo + "");
-				textPane_3.setText(metodo.lineasComentadas + "");
 				int fanInC = metodo.fanIn[0];
-				textPane_2.setText(fanInC + "");
 				if (fanInC < 3)
 					textPane_2.setBackground(Color.YELLOW);
 				else if (fanInC > 5)
 					textPane_2.setBackground(Color.GREEN);
 				int fanInT = metodo.fanIn[1];
-				textPane_8.setText(fanInT + "");
 				if (fanInT < 3)
 					textPane_8.setBackground(Color.YELLOW);
 				else if (fanInT > 5)
 					textPane_8.setBackground(Color.GREEN);
-				textPane_4.setText(metodo.fanOut + "");
 				if (metodo.fanOut < 5)
 					textPane_4.setBackground(Color.GREEN);
 				else if (metodo.fanOut > 12)
@@ -458,25 +455,33 @@ public class Interfaz {
 				else
 					textPane_4.setBackground(Color.YELLOW);
 
-				textPane_5.setText(metodo.halstead.N() + "");
-				textPane_11.setText(metodo.halstead.n() + "");
-				textPane_6.setText(metodo.halstead.N1 + "");
-				textPane_7.setText(metodo.halstead.N2 + "");
-				textPane_10.setText(metodo.halstead.n1 + "");
-				textPane_12.setText(metodo.halstead.n2 + "");
 				double v = metodo.halstead.V();
-				textPane_14.setText(v + "");
 				if (v < 200)
 					textPane_14.setBackground(Color.GREEN);
 				else if (v < 450)
 					textPane_14.setBackground(Color.YELLOW);
 				else
 					textPane_14.setBackground(Color.RED);
-				textPane_13.setText(metodo.halstead.D() + "");
-				textPane_15.setText(metodo.halstead.L() + "");
-				textPane_16.setText(metodo.halstead.E() + "");
-				textPane_17.setText(metodo.halstead.T() + "");
-				textArea.setText(metodo.codigoCompleto);
+
+				textPane.setText(metodo.cc + "");
+				textPane_1.setText(metodo.lineasCodigo + "");
+				textPane_2.setText(fanInC + "");
+				textPane_3.setText(metodo.lineasComentadas + "");
+				textPane_4.setText(metodo.fanOut + "");
+				textPane_5.setText(metodo.halstead.N() + "");
+				textPane_6.setText(String.format("%-6.0f", metodo.halstead.N1));
+				textPane_7.setText(String.format("%-6.0f", metodo.halstead.N2));
+				textPane_8.setText(fanInT + "");
+				textPane_9.setText(metodo.tipo);
+				textPane_10.setText(String.format("%-6.0f", metodo.halstead.n1));
+				textPane_11.setText(metodo.halstead.n() + "");
+				textPane_12.setText(String.format("%-6.0f", metodo.halstead.n2));
+				textPane_13.setText(String.format("%-6.3f", metodo.halstead.D()));
+				textPane_14.setText(String.format("%-6.3f", v));
+				textPane_15.setText(String.format("%-6.3f", metodo.halstead.L()));
+				textPane_16.setText(String.format("%-6.3f", metodo.halstead.E()));
+				textPane_17.setText(String.format("%-6.3f", metodo.halstead.T()));
+				textArea.setText(metodo.codigoCompleto.replace("\t", "     "));
 			}
 		});
 

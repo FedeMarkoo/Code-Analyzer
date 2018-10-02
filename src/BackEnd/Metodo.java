@@ -9,6 +9,7 @@ public class Metodo {
 	public String codigo;
 	public String codigoCompleto;
 	public String parametros;
+	public int cparametros;
 	public String tipo;
 	public int cc;
 	public int lineasComentadas;
@@ -22,6 +23,7 @@ public class Metodo {
 	public Metodo(String group, String full, String cod, Clase clase) {
 		nombre = group;
 		parametros = "(" + full.split("\\(|\\)")[1] + ")";
+		cparametros = parametros.length() - parametros.replace(",", "").length();
 		this.clase = clase;
 		extraerCodigoDeFuncion(full, cod);
 		tipo(codigo);
@@ -69,7 +71,7 @@ public class Metodo {
 		this.codigo = Evaluar.eliminarComentarios(codigoCompleto);
 	}
 
-	public void extraerCodigoDeFuncion(String full, String cod, int i) { //de prueba
+	public void extraerCodigoDeFuncion(String full, String cod, int i) { // de prueba
 		full = full.substring(Evaluar.inicioMetodo(full));
 
 		String codigo = cod;
@@ -102,26 +104,22 @@ public class Metodo {
 
 	@Override
 	public String toString() {
-		return  nombre + parametros;
+		return nombre + parametros;
 	}
 
-	public void fans_Y_Halstead() {
-		fan();
-	}
-
-	private void fan() {
-		fanIn[0] = clase.fan_inClase(this);
+	public void fans_Y_Halstead(Analizador analizador) {
+		fanIn[0] = Evaluar.fanIn(this, clase);
 		if (tipo.contains("Private"))
 			fanIn[1] = fanIn[0];
 		else
-			fanIn[1] = Evaluar.fan_inTodo(this);
+			fanIn[1] = Evaluar.fan_inTodo(this, analizador);
 
 		Matcher m = Pattern.compile("[\\w\\d_]+\\s*\\(").matcher(codigo);
 		while (m.find())
 			if (!m.group().matches("(?:if|for|while|switch)\\s*\\("))
 				fanOut++;
 		fanOut--;
-		nivelAlerta = (int) (cc * (Math.log(fanIn[1]))) + cc / fanIn[1];
+		nivelAlerta = (int) (cc * (Math.log(fanIn[1])) + cc / (((double) fanIn[1] + (double) fanIn[0]) / 2));
 		if (clase.cc < cc)
 			clase.cc = cc;
 		if (clase.nivelAlerta < nivelAlerta)
