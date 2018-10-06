@@ -5,11 +5,10 @@ import java.util.regex.Pattern;
 
 public class Evaluar {
 	private static Pattern pat = Pattern.compile("[\\w_]");
-	private static Pattern patcc = Pattern
-			.compile("\\W(?:if|while|for|case|try)\\W|(?:\\|\\||\\&\\&|(?:[^\\\"]+\\?[^;:]+:[^;:]+;))");
+	
 
 	public static int cc(String cod) {
-		Matcher match = patcc.matcher(cod);
+		Matcher match = Variables.patcc.matcher(cod);
 		int cc = 1;
 		while (match.find())
 			cc++;
@@ -37,6 +36,7 @@ public class Evaluar {
 	}
 
 	public static int[] contarComentarios(String codigo) {
+		codigo = codigo.replace("\\\"", "").replaceAll("\"[^\"]*\"|'[^']*'", "");
 		int lineascomentarios = 0;
 		int lineascodigo = 0;
 		boolean comentarioMultilinea = false;
@@ -53,8 +53,7 @@ public class Evaluar {
 					lineascodigo++;
 				if (linea.contains("//"))
 					lineascomentarios++;
-			}
-			else
+			} else
 				lineascomentarios++;
 		}
 		return new int[] { lineascomentarios, lineascodigo };
@@ -94,7 +93,7 @@ public class Evaluar {
 	}
 
 	private static boolean cuentaComas(String c2, int i) {
-		c2 = c2.replaceAll("\"[^\"]*\"|'[^']*'", "");
+		c2 = c2.replace("\\\"", "").replaceAll("\"[^\"]*\"|'[^']*'", "");
 		char[] c = c2.toCharArray();
 		int id = -1, t = c2.length();
 		int nivel = 0;

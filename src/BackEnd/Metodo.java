@@ -35,6 +35,10 @@ public class Metodo {
 	}
 
 	private void tipo(String full) {
+		if (full.matches(".*public\\s+" + nombre + "\\s*\\(.*")) {
+			tipo = "Constructor";
+			return;
+		}
 		if (full.contains("static")) {
 			full = full.replace("static", "").trim();
 			tipo = "Static ";
@@ -119,7 +123,7 @@ public class Metodo {
 			if (!m.group().matches("(?:if|for|while|switch)\\s*\\("))
 				fanOut++;
 		fanOut--;
-		nivelAlerta = (int) (cc * (Math.log(fanIn[1])) + cc / (((double) fanIn[1] + (double) fanIn[0]) / 2));
+		nivelAlerta = (int) Math.log(1 + (cc * 5 + fanIn[0] * 5 + fanIn[1] * 3 + fanOut * 3+halstead.N()+halstead.V())*2);
 		if (clase.cc < cc)
 			clase.cc = cc;
 		if (clase.nivelAlerta < nivelAlerta)

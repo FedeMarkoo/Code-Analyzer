@@ -1,5 +1,7 @@
 package BackEnd;
+
 import java.util.HashMap;
+import java.util.Map.Entry;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -21,7 +23,7 @@ public class Halstead {
 	private HashMap<String, Integer> operadores_N1 = new HashMap<>();
 	private HashMap<String, Integer> operandos__N2 = new HashMap<>();
 	private Pattern pat = Pattern.compile(
-			"((?:[\\w\\.\\d]+\\.)*[\\w\\d]+\\s*\\()|([\\*\\+\\=\\<\\>\\!\\-\\?]+|\\&\\&|\\|\\||\\s*(?:if|while|do|try|catch|case|switch|for|throw)[^\\w\\d]*)");
+			"((?:[\\w\\.\\d]+\\.)*[\\w\\d]+\\s*\\()|([\\*\\+\\=\\<\\>\\!\\-\\?]+|\\&\\&|\\|\\||[\\s\\(]+(?:if|while|do|try|catch|case|switch|for|throw)[\\s\\(]+)");
 
 	private static final Pattern p = Pattern.compile(
 			"(\"[^\\\"]*\"|\'[^\\\']*\'|[\\w\\d_.]+\\(?|[\\*\\+\\=\\<\\>\\!\\-\\?]+|[^/]\\/[^/]|\\&\\&|\\|\\|)");
@@ -36,6 +38,34 @@ public class Halstead {
 			}
 		}.start();
 
+	}
+
+	public String[] goperadores() {
+		String[] strings = new String[operadores_N1.size()];
+		operadores_N1.keySet().toArray(strings);
+		return strings;
+	}
+
+	public String[] goperandos() {
+		String[] strings = new String[operandos__N2.size()];
+		operandos__N2.keySet().toArray(strings);
+		return strings;
+	}
+
+	public String operadores() {
+		String out = "";
+		for (Entry<String, Integer> a : operadores_N1.entrySet()) {
+			out += a.getKey() + (a.getKey().endsWith("(") ? ")" : "") + " (" + a.getValue() + ")\n";
+		}
+		return out;
+	}
+
+	public String operandos() {
+		String out = "";
+		for (Entry<String, Integer> a : operandos__N2.entrySet()) {
+			out += a.getKey() + "  (" + a.getValue() + ")\n";
+		}
+		return out;
 	}
 
 	public String toString() {
@@ -141,20 +171,20 @@ public class Halstead {
 	}
 
 	private void add(String group) {
-		Matcher mat = pat.matcher(group);
-		if (mat.find()) {
+		Matcher mat = pat.matcher(" " + group + " ");
+		if (mat.find() && !group.contains("\"")) {
 			if (!operadores_N1.containsKey(group)) {
-				operadores_N1.put(group, null);
+				operadores_N1.put(group, 1);
 				n1++;
-			}
+			} else
+				operadores_N1.put(group, operadores_N1.get(group) + 1);
 			N1++;
 		} else {
 			if (!operandos__N2.containsKey(group)) {
-				if (group.contains("("))
-					group += ")";
-				operandos__N2.put(group, null);
+				operandos__N2.put(group, 1);
 				n2++;
-			}
+			} else
+				operandos__N2.put(group, operandos__N2.get(group) + 1);
 			N2++;
 		}
 
