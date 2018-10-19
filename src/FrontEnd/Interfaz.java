@@ -32,6 +32,8 @@ import java.awt.event.ItemListener;
 import java.awt.event.ItemEvent;
 import javax.swing.JLabel;
 import javax.swing.SwingConstants;
+import javax.swing.UIManager;
+
 import java.awt.Font;
 
 public class Interfaz {
@@ -45,6 +47,14 @@ public class Interfaz {
 	public static void main(String[] args) {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
+				javax.swing.ToolTipManager.sharedInstance().setDismissDelay(90000000);
+				javax.swing.ToolTipManager.sharedInstance().setInitialDelay(100);
+				javax.swing.ToolTipManager.sharedInstance().setReshowDelay(10);
+				try {
+					UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
+				} catch (Exception e) {
+					System.out.println("Error setting native LAF: " + e);
+				}
 				try {
 					Interfaz window = new Interfaz();
 					window.frame.setVisible(true);
@@ -121,9 +131,9 @@ public class Interfaz {
 		frame.getContentPane().add(panel, gbc_panel);
 		GridBagLayout gbl_panel = new GridBagLayout();
 		gbl_panel.columnWidths = new int[] { 473, 0, 0 };
-		gbl_panel.rowHeights = new int[] { 0, 87, 243, 0, 0 };
+		gbl_panel.rowHeights = new int[] { 98, 237, 0, 0 };
 		gbl_panel.columnWeights = new double[] { 0.0, 1.0, Double.MIN_VALUE };
-		gbl_panel.rowWeights = new double[] { 0.0, 0.0, 0.0, 1.0, Double.MIN_VALUE };
+		gbl_panel.rowWeights = new double[] { 0.0, 0.0, 1.0, Double.MIN_VALUE };
 		panel.setLayout(gbl_panel);
 
 		JPanel panel_3 = new JPanel();
@@ -136,7 +146,7 @@ public class Interfaz {
 		panel.add(panel_3, gbc_panel_3);
 		GridBagLayout gbl_panel_3 = new GridBagLayout();
 		gbl_panel_3.columnWidths = new int[] { 238, 239, 259, 0 };
-		gbl_panel_3.rowHeights = new int[] { 0, 0, 0, 0, 0 };
+		gbl_panel_3.rowHeights = new int[] { 0, 0, 16, 0, 0 };
 		gbl_panel_3.columnWeights = new double[] { 1.0, 1.0, 1.0, Double.MIN_VALUE };
 		gbl_panel_3.rowWeights = new double[] { 0.0, 0.0, 0.0, 0.0, Double.MIN_VALUE };
 		panel_3.setLayout(gbl_panel_3);
@@ -233,7 +243,6 @@ public class Interfaz {
 		JPanel panel_2 = new JPanel();
 		panel_2.setLayout(null);
 		GridBagConstraints gbc_panel_2 = new GridBagConstraints();
-		gbc_panel_2.gridheight = 2;
 		gbc_panel_2.insets = new Insets(0, 0, 5, 5);
 		gbc_panel_2.fill = GridBagConstraints.BOTH;
 		gbc_panel_2.gridx = 0;
@@ -261,7 +270,7 @@ public class Interfaz {
 		panel_2.add(lblCodigo);
 
 		JTextPane textPane_2 = new JTextPane();
-		textPane_2.setToolTipText("FanIn dentro de la clase");
+		textPane_2.setToolTipText("Numero de llamadas del metodo dentro de la clase propia del metodo");
 		textPane_2.setEditable(false);
 		textPane_2.setFont(new Font("Tahoma", Font.BOLD, 10));
 		textPane_2.setBounds(106, 136, 51, 19);
@@ -291,8 +300,8 @@ public class Interfaz {
 		textPane_4.setBounds(106, 161, 51, 19);
 		panel_2.add(textPane_4);
 
-		JLabel lblN = new JLabel("N");
-		lblN.setBounds(274, 36, 15, 19);
+		JLabel lblN = new JLabel("Longitud");
+		lblN.setBounds(249, 36, 51, 19);
 		panel_2.add(lblN);
 
 		JTextPane textPane_5 = new JTextPane();
@@ -422,7 +431,7 @@ public class Interfaz {
 		lblTmpEntendimiento.setBounds(274, 211, 76, 19);
 		panel_2.add(lblTmpEntendimiento);
 		GridBagConstraints gbc_textArea = new GridBagConstraints();
-		gbc_textArea.gridheight = 3;
+		gbc_textArea.gridheight = 2;
 		gbc_textArea.fill = GridBagConstraints.BOTH;
 		gbc_textArea.gridx = 1;
 		gbc_textArea.gridy = 1;
@@ -515,6 +524,11 @@ public class Interfaz {
 		});
 		metodos.addItemListener(new ItemListener() {
 			public void itemStateChanged(ItemEvent arg0) {
+				textPane.setForeground(Color.BLACK);
+				textPane_1.setForeground(Color.BLACK);
+				textPane_4.setForeground(Color.BLACK);
+				textPane_14.setForeground(Color.BLACK);
+
 				if (metodos.getComponentCount() == 0 || metodos.getSelectedItem() == null) {
 					textPane_9.setText("");
 					textPane.setText("");
@@ -551,8 +565,17 @@ public class Interfaz {
 					textPane_1.setBackground(Color.GREEN);
 				else if (metodo.nivelAlerta < 12)
 					textPane_1.setBackground(Color.YELLOW);
-				else
-					textPane_1.setBackground(Color.RED);
+				else {
+					textPane_1.setForeground(Color.WHITE);
+					textPane_1.setBackground(Color.RED);}
+				if (metodo.cc < 6)
+					textPane.setBackground(Color.GREEN);
+				else if (metodo.cc < 9)
+					textPane.setBackground(Color.YELLOW);
+				else {
+					textPane.setForeground(Color.WHITE);
+					textPane.setBackground(Color.RED);
+				}
 				int fanInC = metodo.fanIn[0];
 				if (fanInC < 3)
 					textPane_2.setBackground(Color.YELLOW);
@@ -565,9 +588,10 @@ public class Interfaz {
 					textPane_8.setBackground(Color.GREEN);
 				if (metodo.fanOut < 5)
 					textPane_4.setBackground(Color.GREEN);
-				else if (metodo.fanOut > 12)
+				else if (metodo.fanOut > 12) {
+					textPane_4.setForeground(Color.WHITE);
 					textPane_4.setBackground(Color.RED);
-				else
+				}else
 					textPane_4.setBackground(Color.YELLOW);
 
 				double v = metodo.halstead.V();
@@ -575,9 +599,10 @@ public class Interfaz {
 					textPane_14.setBackground(Color.GREEN);
 				else if (v < 450)
 					textPane_14.setBackground(Color.YELLOW);
-				else
+				else {
+					textPane_14.setForeground(Color.WHITE);
 					textPane_14.setBackground(Color.RED);
-
+				}
 				textPane.setText("" + metodo.cc);
 				txtPane_1.setText(metodo.lineasCodigo + "");
 				textPane_1.setText(metodo.nivelAlerta + "");
@@ -690,7 +715,7 @@ public class Interfaz {
 		gbc_recomendacion.insets = new Insets(0, 0, 0, 5);
 		gbc_recomendacion.fill = GridBagConstraints.BOTH;
 		gbc_recomendacion.gridx = 0;
-		gbc_recomendacion.gridy = 3;
+		gbc_recomendacion.gridy = 2;
 		panel.add(recomendacion, gbc_recomendacion);
 	}
 

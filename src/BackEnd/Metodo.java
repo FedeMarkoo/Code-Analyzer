@@ -32,6 +32,7 @@ public class Metodo {
 		lineasComentadas = lineas[0];
 		lineasCodigo = lineas[1];
 		halstead = new Halstead(codigo);
+		alertaYNiveles();
 	}
 
 	private void tipo(String full) {
@@ -123,7 +124,10 @@ public class Metodo {
 			if (!m.group().matches("(?:if|for|while|switch)\\s*\\("))
 				fanOut++;
 		fanOut--;
-		nivelAlerta = (int) Math.log(1 + (cc * 5 + fanIn[0] * 5 + fanIn[1] * 3 + fanOut * 3+halstead.N()+halstead.V())*2);
+	}
+
+	private void alertaYNiveles() {
+		nivelAlerta = ((fanIn[1] * 2) / cc);
 		if (clase.cc < cc)
 			clase.cc = cc;
 		if (clase.nivelAlerta < nivelAlerta)

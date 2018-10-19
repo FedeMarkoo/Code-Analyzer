@@ -22,11 +22,11 @@ public class Halstead {
 	public double N1 = 0, N2 = 0, n2 = 0, n1 = 0;
 	private HashMap<String, Integer> operadores_N1 = new HashMap<>();
 	private HashMap<String, Integer> operandos__N2 = new HashMap<>();
-	private Pattern pat = Pattern.compile(
-			"((?:[\\w\\.\\d]+\\.)*[\\w\\d]+\\s*\\()|([\\*\\+\\=\\<\\>\\!\\-\\?]+|\\&\\&|\\|\\||[\\s\\(]+(?:if|while|do|try|catch|case|switch|for|throw)[\\s\\(]+)");
+	private Pattern regexOperadores = Pattern.compile(
+			"((?:[\\w\\.\\d]+\\.)*[\\w\\d]+\\s*\\()|([\\*\\+\\=\\<\\>\\!\\-\\?]+|\\&\\&|\\|\\||[\\s\\(]+(?:if|while|do|try|catch|case|switch|for|throw|return|new)[\\s\\(]+|\\[|\\]|\\{|\\})");
 
 	private static final Pattern p = Pattern.compile(
-			"(\"[^\\\"]*\"|\'[^\\\']*\'|[\\w\\d_.]+\\(?|[\\*\\+\\=\\<\\>\\!\\-\\?]+|[^/]\\/[^/]|\\&\\&|\\|\\|)");
+			"(\"[^\\\"]*\"|\'[^\\\']*\'|[\\w\\d_.]+\\(?|[\\*\\+\\=\\<\\>\\!\\-\\?]+|[^/]\\/[^/]|\\&\\&|\\|\\||\\[|\\]|\\{|\\})");
 
 	public Halstead(String codigo) {
 		new Thread() {
@@ -171,7 +171,7 @@ public class Halstead {
 	}
 
 	private void add(String group) {
-		Matcher mat = pat.matcher(" " + group + " ");
+		Matcher mat = regexOperadores.matcher(" " + group + " ");
 		if (mat.find() && !group.contains("\"")) {
 			if (!operadores_N1.containsKey(group)) {
 				operadores_N1.put(group, 1);
