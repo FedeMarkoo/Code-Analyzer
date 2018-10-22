@@ -23,12 +23,12 @@ import BackEnd.Clase;
 import BackEnd.Metodo;
 import BackEnd.Packag;
 import BackEnd.Proyecto;
-import BackEnd.Variables;
 import BackEnd.sourceP;
 
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 import java.awt.event.ItemListener;
+import java.util.regex.Pattern;
 import java.awt.event.ItemEvent;
 import javax.swing.JLabel;
 import javax.swing.SwingConstants;
@@ -152,6 +152,7 @@ public class Interfaz {
 		panel_3.setLayout(gbl_panel_3);
 
 		JTextPane recomendacion = new JTextPane();
+		recomendacion.setEditable(false);
 		GridBagConstraints gbc_recomendacion = new GridBagConstraints();
 		gbc_recomendacion.insets = new Insets(0, 0, 0, 5);
 		gbc_recomendacion.fill = GridBagConstraints.BOTH;
@@ -268,13 +269,13 @@ public class Interfaz {
 		panel_2.add(lblCodigo);
 
 		JTextPane textPane_2 = new JTextPane();
-		textPane_2.setToolTipText("Numero de llamadas del metodo dentro de la clase propia del metodo");
 		textPane_2.setEditable(false);
+		textPane_2.setToolTipText("Numero de llamadas del metodo dentro de la clase propia del metodo");
 		textPane_2.setFont(new Font("Tahoma", Font.BOLD, 10));
 		textPane_2.setBounds(106, 111, 51, 19);
 		panel_2.add(textPane_2);
 
-		JLabel lblFanin = new JLabel("Fan In");
+		JLabel lblFanin = new JLabel("Fan Out");
 		lblFanin.setBounds(10, 111, 86, 19);
 		panel_2.add(lblFanin);
 
@@ -288,7 +289,7 @@ public class Interfaz {
 		textPane_3.setBounds(106, 86, 40, 19);
 		panel_2.add(textPane_3);
 
-		JLabel lblFanout = new JLabel("Fan Out");
+		JLabel lblFanout = new JLabel("Fan In");
 		lblFanout.setBounds(10, 136, 86, 19);
 		panel_2.add(lblFanout);
 
@@ -319,8 +320,8 @@ public class Interfaz {
 		panel_2.add(textPane_6);
 
 		JTextPane textPane_8 = new JTextPane();
-		textPane_8.setToolTipText("Numero de llamadas de totales del metodo en todos los archivos analizados");
 		textPane_8.setEditable(false);
+		textPane_8.setToolTipText("Numero de llamadas de totales del metodo en todos los archivos analizados");
 		textPane_8.setFont(new Font("Tahoma", Font.BOLD, 10));
 		textPane_8.setBounds(167, 111, 51, 19);
 		panel_2.add(textPane_8);
@@ -447,8 +448,8 @@ public class Interfaz {
 		tooltip(lblNewLabel, "Complejidad Cliclomatica del programa");
 
 		JTextPane textPane_18 = new JTextPane();
-		textPane_18.setFont(new Font("Tahoma", Font.BOLD, 10));
 		textPane_18.setEditable(false);
+		textPane_18.setFont(new Font("Tahoma", Font.BOLD, 10));
 		textPane_18.setBounds(156, 86, 62, 19);
 		panel_2.add(textPane_18);
 
@@ -604,7 +605,7 @@ public class Interfaz {
 				textPane_5.setText(metodo.halstead.N() + "");
 				textPane_6.setText(String.format("%,.0f", metodo.halstead.N1));
 				textPane_7.setText(String.format("%,.0f", metodo.halstead.N2));
-				textPane_8.setText(fanInT + "");
+				textPane_8.setText((fanInT == -1 ? "-" : fanInT) + "");
 				textPane_9.setText(metodo.tipo);
 				textPane_10.setText(String.format("%,.0f", metodo.halstead.n1));
 				textPane_11.setText(metodo.halstead.n() + "");
@@ -624,8 +625,14 @@ public class Interfaz {
 			}
 
 			private void setCodigo(JEditorPane textArea, Metodo metodo) {
-				String codigo = Variables.patcc.matcher(metodo.codigoCompleto).replaceAll("<span style=\"color:#FF0000\";>$0</span>");
+				Pattern p = Pattern.compile("" + "\\W(?:else\\s+if|if|while|do|else|switch|for|case|try)\\W"
+						+ "|(?:\\|\\||\\&amp;\\&amp;)"
+						+ "|(?!r)(?!e)(?!t)(?!u)(?!r)(?!n)(?! )[\\w\\<\\>\\+\\-\\=\\*\\\\\\&\\|\\(\\) ]+\\?[^:;]+:[^:;]+;");
+				String codigo = p
+						.matcher(metodo.codigoCompleto.replace("&", "&amp;").replace(">", "&gt;").replace("<", "&lt;"))
+						.replaceAll("<span style=\"color:#FF0000\";>$0</span>");
 				codigo = codigo.replace("\t", "&#32&#32&#32&#32 ").replace("\n", "<br>");
+				codigo=codigo.replaceAll("(?!\")(\\/\\*.*\\*\\/|\\/\\/[^<]+)", "<span style=\"color:#03AF06\";>$0</span>");//.replaceAll("//|/*, replacement);
 				/**
 				 * LA IDEA ERA QUE RESALTE LOS OPERADORES Y LOS OPERANDOS... PERO FALLA FEO
 				 * for(String a : metodo.halstead.goperandos()) { codigo=codigo.replace(a,
@@ -643,16 +650,19 @@ public class Interfaz {
 				JFileChooser f = new JFileChooser();
 				f.setFileSelectionMode(JFileChooser.FILES_AND_DIRECTORIES);
 				f.showOpenDialog(null);
-				textField.setText(f.getSelectedFile().getAbsolutePath());
-				new Thread() {
-					public void run() {
-						Analizador a = new Analizador(textField.getText());
-						proyecto.removeAllItems();
-						for (Proyecto p : a.proyectos.get()) {
-							proyecto.addItem(p);
+				try {
+					textField.setText(f.getSelectedFile().getAbsolutePath());
+					new Thread() {
+						public void run() {
+							Analizador a = new Analizador(textField.getText());
+							proyecto.removeAllItems();
+							for (Proyecto p : a.proyectos.get()) {
+								proyecto.addItem(p);
+							}
 						}
-					}
-				}.start();
+					}.start();
+				} catch (Exception e) {
+				}
 			}
 		});
 
@@ -671,9 +681,9 @@ public class Interfaz {
 						+ "\r\n"
 						+ "Atendiendo a varios estudios empíricos, el esfuerzo, E, es incluso una medida mejor de la entendibilidad (comprensión) que N.");
 		tooltip(lblFanin,
-				"Cantidad de veces que se invoca el metodo evaluado.\nEs recomendable un Fan In lo mas alto posible ya que indica que reutilizacion del codigo");
+				"Cantidad de veces que se invoca el metodo evaluado.\nEs recomendable un Fan Out lo mas alto posible ya que indica que reutilizacion del codigo");
 		tooltip(lblFanout,
-				"Cantidad de metodos que utiliza el metodo evaluado.\nEs recomendable un Fan Out de 0 en su defecto uno muy bajo");
+				"Cantidad de metodos que utiliza el metodo evaluado.\nEs recomendable un Fan In de 0 en su defecto uno muy bajo");
 		tooltip(lblN_3, " número de operadores únicos que aparecen en un programa");
 		tooltip(lblN_5, "número de operandos únicos que aparecen en un programa");
 		tooltip(lblN, "longitud N = N1 + N2\r\n" + "\r\n"
@@ -698,7 +708,6 @@ public class Interfaz {
 				+ "Por ejemplo, si dos programas tienen la misma longitud N pero uno tiene mayor número de operadores y operandos únicos, que naturalmente lo hacen más difícil de entender y mantener, este tendrá un mayor volumen. \r\n"
 				+ "\r\n" + "La fórmula es la siguiente:\r\n" + "\r\n" + "volumen V = N x log2 (n)");
 
-		
 	}
 
 	private void setN(JLabel lblN_1, JLabel lblN_4, Metodo metodo) {

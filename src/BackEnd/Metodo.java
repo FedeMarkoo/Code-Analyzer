@@ -118,7 +118,7 @@ public class Metodo {
 	public void fans_Y_Halstead(Analizador analizador) {
 		fanIn[0] = Evaluar.fanIn(this, clase);
 		if (tipo.contains("Private"))
-			fanIn[1] = fanIn[0];
+			fanIn[1] = -1;
 		else
 			fanIn[1] = Evaluar.fan_inTodo(this, analizador);
 

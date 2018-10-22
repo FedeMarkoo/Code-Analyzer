@@ -5,12 +5,11 @@ import java.util.regex.Pattern;
 
 public class Evaluar {
 	private static Pattern pat = Pattern.compile("[\\w_]");
-	
 
 	public static int cc(String cod) {
 		Matcher match = Variables.patcc.matcher(cod);
 		int cc = 1;
-		while (match.find()){
+		while (match.find()) {
 			cc++;
 		}
 		return cc;
@@ -62,13 +61,17 @@ public class Evaluar {
 
 	public static int fan_inTodo(Metodo metodo, Analizador a) {
 		int fain = 0;
-		Pattern compile = Pattern.compile("[^\\w\\d_]" + metodo.nombre + "\\s*\\((.*)\\);");
+		String nombre = metodo.nombre;
+		if (metodo.tipo.contains("Constructor"))
+			nombre = "(?:" + nombre + "|this)";
+		Pattern compile = Pattern.compile("[^\\w\\d_]" + nombre +  "\\s*\\((.*)\\)\\s*[^{\\s]");
 		for (Proyecto p : a.proyectos.get())
 			for (sourceP sp : p.get())
 				for (Packag pk : sp.get())
 					for (Archivo ar : pk.archivos)
 						for (Clase c : ar.clases)
 							fain += fanIn(metodo, compile, c);
+
 		return fain;
 	}
 
@@ -80,12 +83,16 @@ public class Evaluar {
 				if (cuentaComas(match.group(1), metodo.cparametros))
 					fain++;
 		}
+
 		return fain;
 	}
 
 	public static int fanIn(Metodo metodo, Clase c) {
 		int fain = 0;
-		Pattern compile = Pattern.compile("[^\\w\\d_]" + metodo.nombre + "\\s*\\((.*)\\);");
+		String nombre = metodo.nombre;
+		if (metodo.tipo.contains("Constructor"))
+			nombre = "(?:" + nombre + "|this)";
+		Pattern compile = Pattern.compile("[^\\w\\d_]" + nombre + "\\s*\\((.*)\\)\\s*[^{\\s]");
 		Matcher match = compile.matcher(c.codigo);
 		while (match.find())
 			if (cuentaComas(match.group(1), metodo.cparametros))
@@ -99,7 +106,7 @@ public class Evaluar {
 		int id = -1, t = c2.length();
 		int nivel = 0;
 		int comas = 0;
-		while (++id < t) {
+		while (++id < t && nivel >= 0) {
 			if (nivel == 0 && c[id] == ',')
 				comas++;
 			else if (c[id] == '(')
