@@ -605,7 +605,7 @@ public class Interfaz {
 				textPane_5.setText(metodo.halstead.N() + "");
 				textPane_6.setText(String.format("%,.0f", metodo.halstead.N1));
 				textPane_7.setText(String.format("%,.0f", metodo.halstead.N2));
-				textPane_8.setText((fanInT == -1 ? "-" : fanInT) + "");
+				textPane_8.setText((metodo.tipo.contains("Private")? "-" : fanInT) + "");
 				textPane_9.setText(metodo.tipo);
 				textPane_10.setText(String.format("%,.0f", metodo.halstead.n1));
 				textPane_11.setText(metodo.halstead.n() + "");
@@ -627,7 +627,7 @@ public class Interfaz {
 			private void setCodigo(JEditorPane textArea, Metodo metodo) {
 				Pattern p = Pattern.compile("" + "\\W(?:else\\s+if|if|while|do|else|switch|for|case|try)\\W"
 						+ "|(?:\\|\\||\\&amp;\\&amp;)"
-						+ "|(?!r)(?!e)(?!t)(?!u)(?!r)(?!n)(?! )[\\w\\<\\>\\+\\-\\=\\*\\\\\\&\\|\\(\\) ]+\\?[^:;]+:[^:;]+;");
+						+ "|(?!r)(?!e)(?!t)(?!u)(?!r)(?!n)(?! )[\\w\\<\\>\\+\\-\\=\\*\\\\\\&\\|\\(\\) ]+\\?[^\\?:;]+:[^:;\\?]+;");
 				String codigo = p
 						.matcher(metodo.codigoCompleto.replace("&", "&amp;").replace(">", "&gt;").replace("<", "&lt;"))
 						.replaceAll("<span style=\"color:#FF0000\";>$0</span>");
