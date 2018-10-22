@@ -18,7 +18,11 @@ public class Metodo {
 	public int fanOut;
 	public Halstead halstead;
 	private boolean modoAvanzado = false;
+	private static Pattern compile = Pattern.compile("[\\w\\d_]+\\s*\\(");
 	public int nivelAlerta;
+	public String recomendacion = "";
+	private static String[] metodos = { "Cobertura de Sentencias", "Cobertura de Decision", "Cobertura de Condicion",
+			"Cobertura de Condicio Multiple", "Cobertura de Condicion Decision", "Cobertura de Caminos" };
 
 	public Metodo(String group, String full, String cod, Clase clase) {
 		nombre = group;
@@ -32,7 +36,6 @@ public class Metodo {
 		lineasComentadas = lineas[0];
 		lineasCodigo = lineas[1];
 		halstead = new Halstead(codigo);
-		alertaYNiveles();
 	}
 
 	private void tipo(String full) {
@@ -119,18 +122,29 @@ public class Metodo {
 		else
 			fanIn[1] = Evaluar.fan_inTodo(this, analizador);
 
-		Matcher m = Pattern.compile("[\\w\\d_]+\\s*\\(").matcher(codigo);
+		Matcher m = compile.matcher(codigo);
 		while (m.find())
 			if (!m.group().matches("(?:if|for|while|switch)\\s*\\("))
 				fanOut++;
 		fanOut--;
+
+		alertaYNiveles();
 	}
 
 	private void alertaYNiveles() {
-		nivelAlerta = ((fanIn[1] * 2) / cc);
+		nivelAlerta = (int) ((2 * fanIn[1]) * Math.log(20 / cc));
 		if (clase.cc < cc)
 			clase.cc = cc;
 		if (clase.nivelAlerta < nivelAlerta)
 			clase.nivelAlerta = nivelAlerta;
+		if (cc > 10)
+			recomendacion += "Modularizar para reducir su complejidad\n";
+		if (fanIn[1] > 7)
+			recomendacion += "Testear el metodo de forma rigurosa\n";
+
+		int op = nivelAlerta > 5 ? 5 : nivelAlerta;
+		if (op >= 0 && cc > 1)
+			recomendacion += "Se recomienda realizar metodo de " + metodos[op] + "\n";
 	}
+
 }

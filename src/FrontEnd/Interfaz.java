@@ -151,6 +151,14 @@ public class Interfaz {
 		gbl_panel_3.rowWeights = new double[] { 0.0, 0.0, 0.0, 0.0, Double.MIN_VALUE };
 		panel_3.setLayout(gbl_panel_3);
 
+		JTextPane recomendacion = new JTextPane();
+		GridBagConstraints gbc_recomendacion = new GridBagConstraints();
+		gbc_recomendacion.insets = new Insets(0, 0, 0, 5);
+		gbc_recomendacion.fill = GridBagConstraints.BOTH;
+		gbc_recomendacion.gridx = 0;
+		gbc_recomendacion.gridy = 2;
+		panel.add(recomendacion, gbc_recomendacion);
+
 		JLabel lblProyecto = new JLabel("Proyecto");
 		GridBagConstraints gbc_lblProyecto = new GridBagConstraints();
 		gbc_lblProyecto.insets = new Insets(0, 0, 5, 5);
@@ -249,55 +257,45 @@ public class Interfaz {
 		gbc_panel_2.gridy = 1;
 		panel.add(panel_2, gbc_panel_2);
 
-		JTextPane textPane = new JTextPane();
-		textPane.setEditable(false);
-		textPane.setFont(new Font("Tahoma", Font.BOLD, 10));
-		textPane.setBounds(106, 61, 51, 19);
-		panel_2.add(textPane);
-
-		JLabel lblNewLabel = new JLabel("CC");
-		lblNewLabel.setBounds(10, 61, 86, 19);
-		panel_2.add(lblNewLabel);
-
 		JTextPane txtPane_1 = new JTextPane();
 		txtPane_1.setEditable(false);
 		txtPane_1.setFont(new Font("Tahoma", Font.BOLD, 10));
-		txtPane_1.setBounds(106, 86, 51, 19);
+		txtPane_1.setBounds(106, 61, 51, 19);
 		panel_2.add(txtPane_1);
 
 		JLabel lblCodigo = new JLabel("Codigo");
-		lblCodigo.setBounds(10, 86, 86, 19);
+		lblCodigo.setBounds(10, 61, 86, 19);
 		panel_2.add(lblCodigo);
 
 		JTextPane textPane_2 = new JTextPane();
 		textPane_2.setToolTipText("Numero de llamadas del metodo dentro de la clase propia del metodo");
 		textPane_2.setEditable(false);
 		textPane_2.setFont(new Font("Tahoma", Font.BOLD, 10));
-		textPane_2.setBounds(106, 136, 51, 19);
+		textPane_2.setBounds(106, 111, 51, 19);
 		panel_2.add(textPane_2);
 
-		JLabel lblFanin = new JLabel("FanIn");
-		lblFanin.setBounds(10, 136, 86, 19);
+		JLabel lblFanin = new JLabel("Fan In");
+		lblFanin.setBounds(10, 111, 86, 19);
 		panel_2.add(lblFanin);
 
 		JLabel lblComentarios = new JLabel("Comentarios");
-		lblComentarios.setBounds(10, 111, 86, 19);
+		lblComentarios.setBounds(10, 86, 86, 19);
 		panel_2.add(lblComentarios);
 
 		JTextPane textPane_3 = new JTextPane();
 		textPane_3.setEditable(false);
 		textPane_3.setFont(new Font("Tahoma", Font.BOLD, 10));
-		textPane_3.setBounds(106, 111, 40, 19);
+		textPane_3.setBounds(106, 86, 40, 19);
 		panel_2.add(textPane_3);
 
-		JLabel lblFanout = new JLabel("FanOut");
-		lblFanout.setBounds(10, 161, 86, 19);
+		JLabel lblFanout = new JLabel("Fan Out");
+		lblFanout.setBounds(10, 136, 86, 19);
 		panel_2.add(lblFanout);
 
 		JTextPane textPane_4 = new JTextPane();
 		textPane_4.setEditable(false);
 		textPane_4.setFont(new Font("Tahoma", Font.BOLD, 10));
-		textPane_4.setBounds(106, 161, 51, 19);
+		textPane_4.setBounds(106, 136, 51, 19);
 		panel_2.add(textPane_4);
 
 		JLabel lblN = new JLabel("Longitud");
@@ -321,10 +319,10 @@ public class Interfaz {
 		panel_2.add(textPane_6);
 
 		JTextPane textPane_8 = new JTextPane();
-		textPane_8.setToolTipText("FanIn en todos los archivos analizados");
+		textPane_8.setToolTipText("Numero de llamadas de totales del metodo en todos los archivos analizados");
 		textPane_8.setEditable(false);
 		textPane_8.setFont(new Font("Tahoma", Font.BOLD, 10));
-		textPane_8.setBounds(167, 136, 51, 19);
+		textPane_8.setBounds(167, 111, 51, 19);
 		panel_2.add(textPane_8);
 
 		JLabel lblTipo = new JLabel("Tipo");
@@ -418,9 +416,9 @@ public class Interfaz {
 		textPane_16.setBounds(356, 186, 86, 19);
 		panel_2.add(textPane_16);
 
-		JLabel lblEsferzo = new JLabel("Esferzo");
-		lblEsferzo.setBounds(274, 186, 76, 19);
-		panel_2.add(lblEsferzo);
+		JLabel lblesfuerzo = new JLabel("Esfuerzo");
+		lblesfuerzo.setBounds(274, 186, 76, 19);
+		panel_2.add(lblesfuerzo);
 
 		JTextPane textPane_17 = new JTextPane();
 		textPane_17.setEditable(false);
@@ -437,17 +435,21 @@ public class Interfaz {
 		gbc_textArea.gridy = 1;
 		JScrollPane j = new JScrollPane();
 		panel.add(j, gbc_textArea);
+		JTextPane textPane = new JTextPane();
+		textPane.setEditable(false);
+		textPane.setFont(new Font("Tahoma", Font.BOLD, 10));
+		textPane.setBounds(106, 36, 51, 19);
+		panel_2.add(textPane);
 
-		JTextPane textPane_1 = new JTextPane();
-		textPane_1.setFont(new Font("Tahoma", Font.BOLD, 10));
-		textPane_1.setEditable(false);
-		textPane_1.setBounds(106, 36, 51, 19);
-		panel_2.add(textPane_1);
+		JLabel lblNewLabel = new JLabel("CC");
+		lblNewLabel.setBounds(10, 36, 86, 19);
+		panel_2.add(lblNewLabel);
+		tooltip(lblNewLabel, "Complejidad Cliclomatica del programa");
 
 		JTextPane textPane_18 = new JTextPane();
 		textPane_18.setFont(new Font("Tahoma", Font.BOLD, 10));
 		textPane_18.setEditable(false);
-		textPane_18.setBounds(156, 111, 62, 19);
+		textPane_18.setBounds(156, 86, 62, 19);
 		panel_2.add(textPane_18);
 
 		JEditorPane textArea = new JEditorPane();
@@ -525,14 +527,12 @@ public class Interfaz {
 		metodos.addItemListener(new ItemListener() {
 			public void itemStateChanged(ItemEvent arg0) {
 				textPane.setForeground(Color.BLACK);
-				textPane_1.setForeground(Color.BLACK);
 				textPane_4.setForeground(Color.BLACK);
 				textPane_14.setForeground(Color.BLACK);
 
 				if (metodos.getComponentCount() == 0 || metodos.getSelectedItem() == null) {
 					textPane_9.setText("");
 					textPane.setText("");
-					textPane_1.setText("");
 					txtPane_1.setText("");
 					textPane_3.setText("");
 					textPane_2.setText("");
@@ -551,9 +551,9 @@ public class Interfaz {
 					textPane_17.setText("");
 					textPane_18.setText("");
 					textArea.setText("");
+					recomendacion.setText("");
 
 					textPane.setBackground(Color.WHITE);
-					textPane_1.setBackground(Color.WHITE);
 					textPane_2.setBackground(Color.WHITE);
 					textPane_8.setBackground(Color.WHITE);
 					textPane_4.setBackground(Color.WHITE);
@@ -561,13 +561,6 @@ public class Interfaz {
 					return;
 				}
 				Metodo metodo = (Metodo) metodos.getSelectedItem();
-				if (metodo.nivelAlerta < 6)
-					textPane_1.setBackground(Color.GREEN);
-				else if (metodo.nivelAlerta < 12)
-					textPane_1.setBackground(Color.YELLOW);
-				else {
-					textPane_1.setForeground(Color.WHITE);
-					textPane_1.setBackground(Color.RED);}
 				if (metodo.cc < 6)
 					textPane.setBackground(Color.GREEN);
 				else if (metodo.cc < 9)
@@ -591,7 +584,7 @@ public class Interfaz {
 				else if (metodo.fanOut > 12) {
 					textPane_4.setForeground(Color.WHITE);
 					textPane_4.setBackground(Color.RED);
-				}else
+				} else
 					textPane_4.setBackground(Color.YELLOW);
 
 				double v = metodo.halstead.V();
@@ -605,7 +598,6 @@ public class Interfaz {
 				}
 				textPane.setText("" + metodo.cc);
 				txtPane_1.setText(metodo.lineasCodigo + "");
-				textPane_1.setText(metodo.nivelAlerta + "");
 				textPane_2.setText(fanInC + "");
 				textPane_3.setText(metodo.lineasComentadas + "");
 				textPane_4.setText(metodo.fanOut + "");
@@ -628,10 +620,12 @@ public class Interfaz {
 				porcentaje /= lineasTotal;
 				textPane_18.setText(String.format("%.03f", porcentaje) + "%");
 				setCodigo(textArea, metodo);
+				recomendacion.setText(metodo.recomendacion);
 			}
 
 			private void setCodigo(JEditorPane textArea, Metodo metodo) {
-				String codigo = metodo.codigoCompleto.replace("\t", "&#32&#32&#32&#32 ").replace("\n", "<br>");
+				String codigo = Variables.patcc.matcher(metodo.codigoCompleto).replaceAll("<span style=\"color:#FF0000\";>$0</span>");
+				codigo = codigo.replace("\t", "&#32&#32&#32&#32 ").replace("\n", "<br>");
 				/**
 				 * LA IDEA ERA QUE RESALTE LOS OPERADORES Y LOS OPERANDOS... PERO FALLA FEO
 				 * for(String a : metodo.halstead.goperandos()) { codigo=codigo.replace(a,
@@ -639,7 +633,6 @@ public class Interfaz {
 				 * metodo.halstead.goperadores()) { codigo=codigo.replace(a, "<span
 				 * style=\"color:0000FF\";>"+a+"</span>"); }
 				 */
-				codigo = Variables.patcc.matcher(codigo).replaceAll("<span style=\"color:#FF0000\";>$0</span>");
 				textArea.setText(codigo);
 
 			}
@@ -668,7 +661,7 @@ public class Interfaz {
 		tooltip(lblDificultad,
 				"DIFICULTAD\r\n" + "Para definir la dificultad D del programa, se usa la fórmula siguiente:\r\n"
 						+ "\r\n" + "dificultad D = (n1 * N2) / (n2 *2)\r\n" + "");
-		tooltip(lblEsferzo,
+		tooltip(lblesfuerzo,
 				"El esfuerzo es otra medida estudiada por Halstead que ofrece una medida del trabajo requerido para desarrollar un programa. \r\n"
 						+ "\r\n"
 						+ "Desde el punto de vista del mantenimiento, el esfuerzo se puede interpretar como\r\n"
@@ -678,12 +671,11 @@ public class Interfaz {
 						+ "\r\n"
 						+ "Atendiendo a varios estudios empíricos, el esfuerzo, E, es incluso una medida mejor de la entendibilidad (comprensión) que N.");
 		tooltip(lblFanin,
-				"Cantidad de veces que se invoca el metodo evaluado.\nEs recomendable un FanIn lo mas alto posible ya que indica que reutilizacion del codigo");
+				"Cantidad de veces que se invoca el metodo evaluado.\nEs recomendable un Fan In lo mas alto posible ya que indica que reutilizacion del codigo");
 		tooltip(lblFanout,
-				"Cantidad de metodos que utiliza el metodo evaluado.\nEs recomendable un FanOut de 0 en su defecto uno muy bajo");
+				"Cantidad de metodos que utiliza el metodo evaluado.\nEs recomendable un Fan Out de 0 en su defecto uno muy bajo");
 		tooltip(lblN_3, " número de operadores únicos que aparecen en un programa");
 		tooltip(lblN_5, "número de operandos únicos que aparecen en un programa");
-		tooltip(lblNewLabel, "Complejidad Cliclomatica del programa");
 		tooltip(lblN, "longitud N = N1 + N2\r\n" + "\r\n"
 				+ "N es una simple medida del tamaño de un programa. Cuanto más grande sea el tamaño de N, mayor será la dificultad para comprender el programa y mayor el esfuerzo para mantenerlo. \r\n"
 				+ "\r\n"
@@ -706,17 +698,7 @@ public class Interfaz {
 				+ "Por ejemplo, si dos programas tienen la misma longitud N pero uno tiene mayor número de operadores y operandos únicos, que naturalmente lo hacen más difícil de entender y mantener, este tendrá un mayor volumen. \r\n"
 				+ "\r\n" + "La fórmula es la siguiente:\r\n" + "\r\n" + "volumen V = N x log2 (n)");
 
-		JLabel lblAlerta = new JLabel("Alerta");
-		lblAlerta.setBounds(10, 36, 86, 19);
-		panel_2.add(lblAlerta);
-
-		JTextPane recomendacion = new JTextPane();
-		GridBagConstraints gbc_recomendacion = new GridBagConstraints();
-		gbc_recomendacion.insets = new Insets(0, 0, 0, 5);
-		gbc_recomendacion.fill = GridBagConstraints.BOTH;
-		gbc_recomendacion.gridx = 0;
-		gbc_recomendacion.gridy = 2;
-		panel.add(recomendacion, gbc_recomendacion);
+		
 	}
 
 	private void setN(JLabel lblN_1, JLabel lblN_4, Metodo metodo) {

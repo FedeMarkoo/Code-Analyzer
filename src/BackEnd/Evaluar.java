@@ -10,8 +10,9 @@ public class Evaluar {
 	public static int cc(String cod) {
 		Matcher match = Variables.patcc.matcher(cod);
 		int cc = 1;
-		while (match.find())
+		while (match.find()){
 			cc++;
+		}
 		return cc;
 	}
 
