@@ -4,7 +4,7 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 public class Dibujar {
-	public Nodo nodo;
+	public Nodo nodo=new Nodo("");
 
 	public static void main(String a[]) {
 		new Dibujar().dibujar(
@@ -40,11 +40,28 @@ public class Dibujar {
 			if (cad2.contains("{")) {
 				do
 					porTrue = porTrue.substring(0, porTrue.indexOf("}"));
-				while (porTrue.replace("{", "").length() > porTrue.replace("}", "").length());
+				while (porTrue.replace("{", "").length() < porTrue.replace("}", "").length());
+			} else
+				porTrue = cad2;
+			i = m.end() + porTrue.length() - 1;
+			String porFalse = "";
+			if (cod.substring(m.start(1), m.end(1)).equals("if")) {
+				porFalse = cod.substring(i);
+				if (porFalse.trim().startsWith("else")) {
+					cad2 = porFalse.substring(0, porFalse.indexOf(";"));
+					if (cad2.contains("{")) {
+						do
+							porFalse = porFalse.substring(0, porFalse.indexOf("}"));
+						while (porFalse.replace("{", "").length() > porFalse.replace("}", "").length());
+					} else
+						porTrue = cad2;
+					i += porFalse.length() - 1;
+					n = n.add(new NodoCondicion(condicion, porTrue,porFalse));
+				} else
+					n = n.add(new NodoCondicion(condicion, porTrue));
+			} else {
+				n = n.add(new NodoCondicion(condicion, porTrue));
 			}
-			n = n.add(new NodoCondicion(condicion, porTrue));
-
-			i = m.start();
 		}
 		return nodo;
 	}
