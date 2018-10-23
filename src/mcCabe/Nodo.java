@@ -12,4 +12,11 @@ public class Nodo {
 		return siguiente = nodo;
 	}
 
+	@Override
+	public String toString() {
+		return codigo;
+	}
+	
+	
+
 }
