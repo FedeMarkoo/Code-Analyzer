@@ -3,7 +3,7 @@ package mcCabe;
 public class NodoCondicion extends Nodo {
 	public Nodo verdadero, falso;
 
-	public NodoCondicion(String pregunta, String tipo, String sig) {
+	public NodoCondicion(String pregunta, String tipo, String sig, String completo) {
 		super(tipo + " - " + pregunta);
 		sig = sig.trim();
 		int largo = 0;
@@ -16,6 +16,8 @@ public class NodoCondicion extends Nodo {
 			verdadero = Dibujar.dibujar(sig.substring(0, largo));
 		}
 		String resto = sig.substring(largo);
+		if (resto.length() > 3)
+			resto += completo.substring(completo.indexOf(resto) + resto.length());
 		if (tipo.contains("if") && resto.trim().startsWith("else")) {
 			int coma = resto.indexOf(";");
 			int llave = resto.indexOf("{");
