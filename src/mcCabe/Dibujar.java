@@ -26,7 +26,7 @@ public class Dibujar {
 		return;
 	}
 
-	static Pattern p = Pattern.compile("\\s(if|for|while|switch|do)\\s*\\(([^\\n]+)\\)\\s*(?:\\n|\\{)");
+	static Pattern p = Pattern.compile("\\s(if|for|while|switch|do|else if)\\s*\\(([^\\n]+)\\)\\s*(?:\\n|\\{)");
 
 	public static Nodo dibujar(String cod) {
 		Matcher m = p.matcher(cod);
