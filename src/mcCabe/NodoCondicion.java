@@ -12,7 +12,7 @@ public class NodoCondicion extends Nodo {
 			largo = cod.length();
 			verdadero = Dibujar.dibujar(cod);
 		} else {
-			largo = sig.indexOf(";");
+			largo = sig.indexOf(";") + 1;
 			verdadero = Dibujar.dibujar(sig.substring(0, largo));
 		}
 		String resto = sig.substring(largo);
@@ -27,7 +27,7 @@ public class NodoCondicion extends Nodo {
 			if (llave < coma) {
 				String cod = extraerCodigo(resto);
 				largo += cod.length();
-				falso = Dibujar.dibujar(cod);
+				falso = Dibujar.dibujar(cod, resto);
 			} else {
 				int largo2 = resto.indexOf(";");
 				largo += largo2;
@@ -36,7 +36,7 @@ public class NodoCondicion extends Nodo {
 		}
 		resto = sig.substring(largo);
 		siguiente = Dibujar.dibujar(resto);
-		if (siguiente.equals(falso))
+		if (siguiente.equals(falso) || resto.trim().startsWith("else"))
 			siguiente = null;
 	}
 

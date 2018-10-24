@@ -1,5 +1,6 @@
 package mcCabe;
 
+import java.awt.Graphics2D;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -34,9 +35,18 @@ public class Dibujar {
 		if (m.find()) {
 			Nodo n = new Nodo(cod.substring(0, m.start()));
 			String pregunta = m.group(2), tipo = m.group(1), siguiente = cod.substring(m.end() - 1);
-			n.add(new NodoCondicion(pregunta, tipo, siguiente,cod));
+			n.add(new NodoCondicion(pregunta, tipo, siguiente, cod));
 			return n;
 		} else
 			return new Nodo(cod);
 	}
+
+	public static Nodo dibujar(String cod, String resto) {
+		String cod2 = resto.substring(resto.indexOf(cod) + cod.length());
+		if (cod2.trim().startsWith("else"))
+			return dibujar(cod + cod2);
+		else
+			return dibujar(cod);
+	}
+
 }
