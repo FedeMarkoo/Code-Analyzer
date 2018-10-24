@@ -7,19 +7,19 @@ import javax.swing.*;
 public class Graph extends JPanel {
 
 	public void paintComponent(Graphics g) {
+		Nodo n = Dibujar.test();
+		dibujar(n);
+	}
 
-		// vertical line
-		g.setColor(Color.red);
-		g.drawLine(20, 20, 20, 120);
-
-		// horizontal line
-		g.setColor(Color.green);
-		g.drawLine(20, 20, 120, 20);
-
-		// diagonal line
-		g.setColor(Color.blue);
-		g.drawLine(20, 20, 120, 120);
-
+	private void dibujar(Nodo n) {
+		/**
+		 * Esto deberia ser recursivo... el tema seria que tenes que conocer con quien
+		 * se va a conectar y donde va a estar porque en los de condicion se tiene que
+		 * unir la salida de Verdadero con la de Falso y ademas si hay muchos nodos
+		 * siguiente dentro de un verdadero o un falso hace que quede desnivelado y es
+		 * un bardo hacer que se unan
+		 * 
+		 */
 	}
 
 	public static void main(String[] args) {

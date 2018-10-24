@@ -1,14 +1,13 @@
 package mcCabe;
 
-import java.awt.Graphics2D;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 public class Dibujar {
 	public Nodo nodo = new Nodo("");
 
-	public static void main(String a[]) {
-		Nodo n = dibujar(
+	public static Nodo test() {
+		return dibujar(
 				"		codigo = codigo.replace(\"\\\\\\\"\", \"\").replaceAll(\"\\\"[^\\\"]*\\\"|'[^']*'\", \"\");\r\n"
 						+ "		int lineascomentarios = 0;\r\n" + "		int lineascodigo = 0;\r\n"
 						+ "		boolean comentarioMultilinea = false;\r\n"
@@ -24,7 +23,6 @@ public class Dibujar {
 						+ "					lineascomentarios++;\r\n" + "			} else\r\n"
 						+ "				lineascomentarios++;\r\n" + "		}\r\n"
 						+ "		return new int[] { lineascomentarios, lineascodigo };");
-		return;
 	}
 
 	static Pattern p = Pattern.compile("\\s(if|for|while|switch|do|else if)\\s*\\(([^\\n]+)\\)\\s*(?:\\n|\\{)");
