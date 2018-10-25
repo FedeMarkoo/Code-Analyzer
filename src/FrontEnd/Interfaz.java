@@ -25,9 +25,7 @@ import BackEnd.Metodo;
 import BackEnd.Packag;
 import BackEnd.Proyecto;
 import BackEnd.sourceP;
-import mcCabe.Dibujar;
-import mcCabe.Prueba;
-
+import mcCabe.Algo;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 import java.awt.event.ItemListener;
@@ -43,7 +41,7 @@ public class Interfaz {
 
 	private JFrame frame;
 	private JTextField textField;
-	private String codigoG=" ";
+	private String codigoG = " ";
 
 	/**
 	 * Launch the application.
@@ -627,16 +625,11 @@ public class Interfaz {
 				porcentaje /= lineasTotal;
 				textPane_18.setText(String.format("%.03f", porcentaje) + "%");
 				setCodigo(textArea, metodo);
-				codigoG=metodo.codigoCompleto;
+				codigoG = metodo.codigoCompleto;
 				recomendacion.setText(metodo.recomendacion);
-
-				
 
 			}
 
-			
-			
-			
 			private void setCodigo(JEditorPane textArea, Metodo metodo) {
 				Pattern p = Pattern.compile("" + "\\W(?:else\\s+if|if|while|do|else|switch|for|case|try)\\W"
 						+ "|(?:\\|\\||\\&amp;\\&amp;)"
@@ -661,17 +654,18 @@ public class Interfaz {
 		});
 
 		graficarBtn.addActionListener(new ActionListener() {
-	
 
 			public void actionPerformed(ActionEvent arg0) {
-				String codigoCompleto = codigoG;
-				codigoCompleto=codigoCompleto.substring(codigoCompleto.indexOf("{")+1,
-						codigoCompleto.lastIndexOf("}"));
-				Prueba p = new Prueba(Dibujar.resolver(codigoCompleto));
-				p.frame.setVisible(true);
+				try {
+					String codigoCompleto = codigoG;
+					codigoCompleto = codigoCompleto.substring(codigoCompleto.indexOf("{") + 1,
+							codigoCompleto.lastIndexOf("}"));
+					new Algo(" ").resolver(codigoCompleto);
+				} catch (Exception e) {
+				}
 			}
 		});
-		
+
 		buscar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				JFileChooser f = new JFileChooser();
