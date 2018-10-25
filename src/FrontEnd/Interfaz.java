@@ -7,6 +7,7 @@ import javax.swing.JFrame;
 import java.awt.GridBagLayout;
 import javax.swing.JTextField;
 import java.awt.GridBagConstraints;
+
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JEditorPane;
@@ -24,6 +25,8 @@ import BackEnd.Metodo;
 import BackEnd.Packag;
 import BackEnd.Proyecto;
 import BackEnd.sourceP;
+import mcCabe.Dibujar;
+import mcCabe.Prueba;
 
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
@@ -40,6 +43,7 @@ public class Interfaz {
 
 	private JFrame frame;
 	private JTextField textField;
+	private String codigoG=" ";
 
 	/**
 	 * Launch the application.
@@ -458,6 +462,8 @@ public class Interfaz {
 		textArea.setEditable(false);
 		j.setViewportView(textArea);
 
+		JButton graficarBtn = new JButton("Graficar");
+
 		analizar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				new Thread() {
@@ -621,9 +627,16 @@ public class Interfaz {
 				porcentaje /= lineasTotal;
 				textPane_18.setText(String.format("%.03f", porcentaje) + "%");
 				setCodigo(textArea, metodo);
+				codigoG=metodo.codigoCompleto;
 				recomendacion.setText(metodo.recomendacion);
+
+				
+
 			}
 
+			
+			
+			
 			private void setCodigo(JEditorPane textArea, Metodo metodo) {
 				Pattern p = Pattern.compile("" + "\\W(?:else\\s+if|if|while|do|else|switch|for|case|try)\\W"
 						+ "|(?:\\|\\||\\&amp;\\&amp;)"
@@ -647,6 +660,18 @@ public class Interfaz {
 			}
 		});
 
+		graficarBtn.addActionListener(new ActionListener() {
+	
+
+			public void actionPerformed(ActionEvent arg0) {
+				String codigoCompleto = codigoG;
+				codigoCompleto=codigoCompleto.substring(codigoCompleto.indexOf("{")+1,
+						codigoCompleto.lastIndexOf("}"));
+				Prueba p = new Prueba(Dibujar.resolver(codigoCompleto));
+				p.frame.setVisible(true);
+			}
+		});
+		
 		buscar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				JFileChooser f = new JFileChooser();
@@ -709,6 +734,9 @@ public class Interfaz {
 				+ "\r\n"
 				+ "Por ejemplo, si dos programas tienen la misma longitud N pero uno tiene mayor número de operadores y operandos únicos, que naturalmente lo hacen más difícil de entender y mantener, este tendrá un mayor volumen. \r\n"
 				+ "\r\n" + "La fórmula es la siguiente:\r\n" + "\r\n" + "volumen V = N x log2 (n)");
+
+		graficarBtn.setBounds(5, 198, 91, 23);
+		panel_2.add(graficarBtn);
 
 	}
 

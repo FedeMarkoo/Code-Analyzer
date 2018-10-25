@@ -7,7 +7,7 @@ public class Dibujar {
 	public Nodo nodo = new Nodo("");
 
 	public static Nodo test() {
-		return dibujar(
+		return resolver(
 				"		codigo = codigo.replace(\"\\\\\\\"\", \"\").replaceAll(\"\\\"[^\\\"]*\\\"|'[^']*'\", \"\");\r\n"
 						+ "		int lineascomentarios = 0;\r\n" + "		int lineascodigo = 0;\r\n"
 						+ "		boolean comentarioMultilinea = false;\r\n"
@@ -23,6 +23,29 @@ public class Dibujar {
 						+ "					lineascomentarios++;\r\n" + "			} else\r\n"
 						+ "				lineascomentarios++;\r\n" + "		}\r\n"
 						+ "		return new int[] { lineascomentarios, lineascodigo };");
+	}
+
+	public static Nodo resolver(String cod) {
+		Nodo.n = 0;
+		Nodo n = dibujar(cod);
+
+		n.hijos = contarHijos(n);
+		return n;
+	}
+
+	private static int contarHijos(Nodo n) {
+		if (n == null)
+			return 0;
+		if (n.getClass() == Nodo.class)
+			return n.hijos = 2 + contarHijos(n.siguiente);
+		else {
+			NodoCondicion c = (NodoCondicion) n;
+			int max = 0;
+			max = Math.max(max, contarHijos(c.falso));
+			max = Math.max(max, contarHijos(c.verdadero));
+			max = Math.max(max, contarHijos(c.siguiente));
+			return c.hijos = max + 1;
+		}
 	}
 
 	static Pattern p = Pattern.compile("\\s(if|for|while|switch|do|else if)\\s*\\(([^\\n]+)\\)\\s*(?:\\n|\\{)");

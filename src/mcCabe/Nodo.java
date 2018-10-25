@@ -2,10 +2,14 @@ package mcCabe;
 
 public class Nodo {
 	public String codigo;
+	public int hijos;
 	public Nodo siguiente;
+	public String nivel;
+	public static int n = 0;
 
 	public Nodo(String cod) {
-		codigo=cod;
+		codigo = cod;
+		nivel = ++n + "";
 	}
 
 	public Nodo add(Nodo nodo) {
@@ -16,7 +20,5 @@ public class Nodo {
 	public String toString() {
 		return codigo;
 	}
-	
-	
 
 }

@@ -38,6 +38,10 @@ public class NodoCondicion extends Nodo {
 		siguiente = Dibujar.dibujar(resto);
 		if (siguiente.equals(falso) || resto.trim().startsWith("else"))
 			siguiente = null;
+		if (falso == null)
+			falso = new Nodo(" ");
+		if (verdadero == null)
+			verdadero = new Nodo(" ");
 	}
 
 	private String extraerCodigo(String cod) {
