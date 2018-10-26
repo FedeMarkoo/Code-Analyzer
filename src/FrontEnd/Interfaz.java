@@ -260,22 +260,22 @@ public class Interfaz {
 		gbc_panel_2.gridy = 1;
 		panel.add(panel_2, gbc_panel_2);
 
-		JTextPane txtPane_1 = new JTextPane();
-		txtPane_1.setEditable(false);
-		txtPane_1.setFont(new Font("Tahoma", Font.BOLD, 10));
-		txtPane_1.setBounds(106, 61, 51, 19);
-		panel_2.add(txtPane_1);
+		JTextPane lineasCod = new JTextPane();
+		lineasCod.setEditable(false);
+		lineasCod.setFont(new Font("Tahoma", Font.BOLD, 10));
+		lineasCod.setBounds(106, 61, 51, 19);
+		panel_2.add(lineasCod);
 
 		JLabel lblCodigo = new JLabel("Codigo");
 		lblCodigo.setBounds(10, 61, 86, 19);
 		panel_2.add(lblCodigo);
 
-		JTextPane textPane_2 = new JTextPane();
-		textPane_2.setEditable(false);
-		textPane_2.setToolTipText("Numero de llamadas del metodo dentro de la clase propia del metodo");
-		textPane_2.setFont(new Font("Tahoma", Font.BOLD, 10));
-		textPane_2.setBounds(106, 111, 51, 19);
-		panel_2.add(textPane_2);
+		JTextPane fanOutC = new JTextPane();
+		fanOutC.setEditable(false);
+		fanOutC.setToolTipText("Numero de llamadas del metodo dentro de la clase propia del metodo");
+		fanOutC.setFont(new Font("Tahoma", Font.BOLD, 10));
+		fanOutC.setBounds(106, 111, 51, 19);
+		panel_2.add(fanOutC);
 
 		JLabel lblFanin = new JLabel("Fan Out");
 		lblFanin.setBounds(10, 111, 86, 19);
@@ -285,58 +285,58 @@ public class Interfaz {
 		lblComentarios.setBounds(10, 86, 86, 19);
 		panel_2.add(lblComentarios);
 
-		JTextPane textPane_3 = new JTextPane();
-		textPane_3.setEditable(false);
-		textPane_3.setFont(new Font("Tahoma", Font.BOLD, 10));
-		textPane_3.setBounds(106, 86, 40, 19);
-		panel_2.add(textPane_3);
+		JTextPane lineasComentarios = new JTextPane();
+		lineasComentarios.setEditable(false);
+		lineasComentarios.setFont(new Font("Tahoma", Font.BOLD, 10));
+		lineasComentarios.setBounds(106, 86, 40, 19);
+		panel_2.add(lineasComentarios);
 
 		JLabel lblFanout = new JLabel("Fan In");
 		lblFanout.setBounds(10, 136, 86, 19);
 		panel_2.add(lblFanout);
 
-		JTextPane textPane_4 = new JTextPane();
-		textPane_4.setEditable(false);
-		textPane_4.setFont(new Font("Tahoma", Font.BOLD, 10));
-		textPane_4.setBounds(106, 136, 51, 19);
-		panel_2.add(textPane_4);
+		JTextPane fanIn = new JTextPane();
+		fanIn.setEditable(false);
+		fanIn.setFont(new Font("Tahoma", Font.BOLD, 10));
+		fanIn.setBounds(106, 136, 51, 19);
+		panel_2.add(fanIn);
 
 		JLabel lblN = new JLabel("Longitud");
 		lblN.setBounds(249, 36, 51, 19);
 		panel_2.add(lblN);
 
-		JTextPane textPane_5 = new JTextPane();
-		textPane_5.setEditable(false);
-		textPane_5.setFont(new Font("Tahoma", Font.BOLD, 10));
-		textPane_5.setBounds(299, 36, 51, 19);
-		panel_2.add(textPane_5);
+		JTextPane halsN = new JTextPane();
+		halsN.setEditable(false);
+		halsN.setFont(new Font("Tahoma", Font.BOLD, 10));
+		halsN.setBounds(299, 36, 51, 19);
+		panel_2.add(halsN);
 
 		JLabel lblN_1 = new JLabel("N1");
 		lblN_1.setBounds(274, 61, 15, 19);
 		panel_2.add(lblN_1);
 
-		JTextPane textPane_6 = new JTextPane();
-		textPane_6.setEditable(false);
-		textPane_6.setFont(new Font("Tahoma", Font.BOLD, 10));
-		textPane_6.setBounds(299, 61, 51, 19);
-		panel_2.add(textPane_6);
+		JTextPane halsN1 = new JTextPane();
+		halsN1.setEditable(false);
+		halsN1.setFont(new Font("Tahoma", Font.BOLD, 10));
+		halsN1.setBounds(299, 61, 51, 19);
+		panel_2.add(halsN1);
 
-		JTextPane textPane_8 = new JTextPane();
-		textPane_8.setEditable(false);
-		textPane_8.setToolTipText("Numero de llamadas de totales del metodo en todos los archivos analizados");
-		textPane_8.setFont(new Font("Tahoma", Font.BOLD, 10));
-		textPane_8.setBounds(167, 111, 51, 19);
-		panel_2.add(textPane_8);
+		JTextPane fanOutT = new JTextPane();
+		fanOutT.setEditable(false);
+		fanOutT.setToolTipText("Numero de llamadas de totales del metodo en todos los archivos analizados");
+		fanOutT.setFont(new Font("Tahoma", Font.BOLD, 10));
+		fanOutT.setBounds(167, 111, 51, 19);
+		panel_2.add(fanOutT);
 
 		JLabel lblTipo = new JLabel("Tipo");
 		lblTipo.setBounds(10, 11, 86, 19);
 		panel_2.add(lblTipo);
 
-		JTextPane textPane_9 = new JTextPane();
-		textPane_9.setEditable(false);
-		textPane_9.setFont(new Font("Tahoma", Font.BOLD, 10));
-		textPane_9.setBounds(106, 11, 112, 19);
-		panel_2.add(textPane_9);
+		JTextPane tipo = new JTextPane();
+		tipo.setEditable(false);
+		tipo.setFont(new Font("Tahoma", Font.BOLD, 10));
+		tipo.setBounds(106, 11, 112, 19);
+		panel_2.add(tipo);
 
 		JLabel lblNewLabel_1 = new JLabel("Halstead");
 		lblNewLabel_1.setHorizontalAlignment(SwingConstants.CENTER);
@@ -367,11 +367,11 @@ public class Interfaz {
 		lblN_4.setBounds(274, 86, 15, 19);
 		panel_2.add(lblN_4);
 
-		JTextPane textPane_7 = new JTextPane();
-		textPane_7.setEditable(false);
-		textPane_7.setFont(new Font("Tahoma", Font.BOLD, 10));
-		textPane_7.setBounds(299, 86, 51, 19);
-		panel_2.add(textPane_7);
+		JTextPane halsN2 = new JTextPane();
+		halsN2.setEditable(false);
+		halsN2.setFont(new Font("Tahoma", Font.BOLD, 10));
+		halsN2.setBounds(299, 86, 51, 19);
+		panel_2.add(halsN2);
 
 		JTextPane textPane_12 = new JTextPane();
 		textPane_12.setEditable(false);
@@ -438,11 +438,11 @@ public class Interfaz {
 		gbc_textArea.gridy = 1;
 		JScrollPane j = new JScrollPane();
 		panel.add(j, gbc_textArea);
-		JTextPane textPane = new JTextPane();
-		textPane.setEditable(false);
-		textPane.setFont(new Font("Tahoma", Font.BOLD, 10));
-		textPane.setBounds(106, 36, 51, 19);
-		panel_2.add(textPane);
+		JTextPane cc = new JTextPane();
+		cc.setEditable(false);
+		cc.setFont(new Font("Tahoma", Font.BOLD, 10));
+		cc.setBounds(106, 36, 51, 19);
+		panel_2.add(cc);
 
 		JLabel lblNewLabel = new JLabel("CC");
 		lblNewLabel.setBounds(10, 36, 86, 19);
@@ -531,22 +531,22 @@ public class Interfaz {
 		});
 		metodos.addItemListener(new ItemListener() {
 			public void itemStateChanged(ItemEvent arg0) {
-				textPane.setForeground(Color.BLACK);
-				textPane_4.setForeground(Color.BLACK);
+				cc.setForeground(Color.BLACK);
+				fanIn.setForeground(Color.BLACK);
 				textPane_14.setForeground(Color.BLACK);
 
 				if (metodos.getComponentCount() == 0 || metodos.getSelectedItem() == null) {
-					textPane_9.setText("");
-					textPane.setText("");
-					txtPane_1.setText("");
-					textPane_3.setText("");
-					textPane_2.setText("");
-					textPane_8.setText("");
-					textPane_4.setText("");
-					textPane_5.setText("");
+					tipo.setText("");
+					cc.setText("");
+					lineasCod.setText("");
+					lineasComentarios.setText("");
+					fanOutC.setText("");
+					fanOutT.setText("");
+					fanIn.setText("");
+					halsN.setText("");
 					textPane_11.setText("");
-					textPane_6.setText("");
-					textPane_7.setText("");
+					halsN1.setText("");
+					halsN2.setText("");
 					textPane_10.setText("");
 					textPane_12.setText("");
 					textPane_14.setText("");
@@ -558,39 +558,39 @@ public class Interfaz {
 					textArea.setText("");
 					recomendacion.setText("");
 
-					textPane.setBackground(Color.WHITE);
-					textPane_2.setBackground(Color.WHITE);
-					textPane_8.setBackground(Color.WHITE);
-					textPane_4.setBackground(Color.WHITE);
+					cc.setBackground(Color.WHITE);
+					fanOutC.setBackground(Color.WHITE);
+					fanOutT.setBackground(Color.WHITE);
+					fanIn.setBackground(Color.WHITE);
 					textPane_14.setBackground(Color.WHITE);
 					return;
 				}
 				Metodo metodo = (Metodo) metodos.getSelectedItem();
 				if (metodo.cc < 6)
-					textPane.setBackground(Color.GREEN);
+					cc.setBackground(Color.GREEN);
 				else if (metodo.cc < 9)
-					textPane.setBackground(Color.YELLOW);
+					cc.setBackground(Color.YELLOW);
 				else {
-					textPane.setForeground(Color.WHITE);
-					textPane.setBackground(Color.RED);
+					cc.setForeground(Color.WHITE);
+					cc.setBackground(Color.RED);
 				}
 				int fanInC = metodo.fanIn[0];
 				if (fanInC < 3)
-					textPane_2.setBackground(Color.YELLOW);
+					fanOutC.setBackground(Color.YELLOW);
 				else if (fanInC > 5)
-					textPane_2.setBackground(Color.GREEN);
+					fanOutC.setBackground(Color.GREEN);
 				int fanInT = metodo.fanIn[1];
 				if (fanInT < 3)
-					textPane_8.setBackground(Color.YELLOW);
+					fanOutT.setBackground(Color.YELLOW);
 				else if (fanInT > 5)
-					textPane_8.setBackground(Color.GREEN);
+					fanOutT.setBackground(Color.GREEN);
 				if (metodo.fanOut < 5)
-					textPane_4.setBackground(Color.GREEN);
+					fanIn.setBackground(Color.GREEN);
 				else if (metodo.fanOut > 12) {
-					textPane_4.setForeground(Color.WHITE);
-					textPane_4.setBackground(Color.RED);
+					fanIn.setForeground(Color.WHITE);
+					fanIn.setBackground(Color.RED);
 				} else
-					textPane_4.setBackground(Color.YELLOW);
+					fanIn.setBackground(Color.YELLOW);
 
 				double v = metodo.halstead.V();
 				if (v < 200)
@@ -601,16 +601,16 @@ public class Interfaz {
 					textPane_14.setForeground(Color.WHITE);
 					textPane_14.setBackground(Color.RED);
 				}
-				textPane.setText("" + metodo.cc);
-				txtPane_1.setText(metodo.lineasCodigo + "");
-				textPane_2.setText(fanInC + "");
-				textPane_3.setText(metodo.lineasComentadas + "");
-				textPane_4.setText(metodo.fanOut + "");
-				textPane_5.setText(metodo.halstead.N() + "");
-				textPane_6.setText(String.format("%,.0f", metodo.halstead.N1));
-				textPane_7.setText(String.format("%,.0f", metodo.halstead.N2));
-				textPane_8.setText((metodo.tipo.contains("Private") ? "-" : fanInT) + "");
-				textPane_9.setText(metodo.tipo);
+				cc.setText("" + metodo.cc);
+				lineasCod.setText(metodo.lineasCodigo + "");
+				fanOutC.setText(fanInC + "");
+				lineasComentarios.setText(metodo.lineasComentadas + "");
+				fanIn.setText(metodo.fanOut + "");
+				halsN.setText(metodo.halstead.N() + "");
+				halsN1.setText(String.format("%,.0f", metodo.halstead.N1));
+				halsN2.setText(String.format("%,.0f", metodo.halstead.N2));
+				fanOutT.setText((metodo.tipo.contains("Private") ? "-" : fanInT) + "");
+				tipo.setText(metodo.tipo);
 				textPane_10.setText(String.format("%,.0f", metodo.halstead.n1));
 				textPane_11.setText(metodo.halstead.n() + "");
 				textPane_12.setText(String.format("%,.0f", metodo.halstead.n2));

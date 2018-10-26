@@ -146,5 +146,4 @@ public class Metodo {
 		if (op >= 0 && cc > 1)
 			recomendacion += "Se recomienda realizar metodo de " + metodos[op] + "\n";
 	}
-
 }

@@ -14,6 +14,8 @@ public class Algo extends JPanel {
 	private Graphics2D control;
 
 	public Algo() {
+
+		add(btnNewButton);
 		cod = Dibujar.test();
 	}
 
@@ -24,7 +26,7 @@ public class Algo extends JPanel {
 				saveComponentAsJPEG(a, "McCabe.jpeg");
 			}
 		});
-		add(btnNewButton);
+
 		cod = codigoCompleto;
 	}
 
@@ -44,7 +46,7 @@ public class Algo extends JPanel {
 			0.0f);
 	Dimension totalSize;
 	FontMetrics fontMetrics;
-	private final JButton btnNewButton = new JButton("Guardar Imagen");
+	private final static JButton btnNewButton = new JButton("Guardar Imagen");
 	private Algo a;
 	private BufferedImage bufferedImage;
 
@@ -183,6 +185,7 @@ public class Algo extends JPanel {
 		f.pack();
 		f.setSize(new Dimension(1000, 1000));
 		f.setVisible(true);
+
 	}
 
 	public void resolver(String codigoCompleto) {
