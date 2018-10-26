@@ -6,9 +6,8 @@ import java.util.regex.Pattern;
 public class Dibujar {
 	public Nodo nodo = new Nodo("");
 
-	public static Nodo test() {
-		return resolver(
-				"		codigo = codigo.replace(\"\\\\\\\"\", \"\").replaceAll(\"\\\"[^\\\"]*\\\"|'[^']*'\", \"\");\r\n"
+	public static String test() {
+		return "		codigo = codigo.replace(\"\\\\\\\"\", \"\").replaceAll(\"\\\"[^\\\"]*\\\"|'[^']*'\", \"\");\r\n"
 						+ "		int lineascomentarios = 0;\r\n" + "		int lineascodigo = 0;\r\n"
 						+ "		boolean comentarioMultilinea = false;\r\n"
 						+ "		for (String linea : codigo.split(\"\\n\")) {\r\n"
@@ -22,7 +21,7 @@ public class Dibujar {
 						+ "				if (linea.contains(\"//\"))\r\n"
 						+ "					lineascomentarios++;\r\n" + "			} else\r\n"
 						+ "				lineascomentarios++;\r\n" + "		}\r\n"
-						+ "		return new int[] { lineascomentarios, lineascodigo };");
+						+ "		return new int[] { lineascomentarios, lineascodigo };";
 	}
 
 	public static Nodo resolver(String cod) {
