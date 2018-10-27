@@ -47,7 +47,7 @@ public class Dibujar {
 		}
 	}
 
-	static Pattern p = Pattern.compile("\\s(if|for|while|switch|do|else if)\\s*\\(([^\\n]+)\\)\\s*(?:\\n|\\{)");
+	static Pattern p = Pattern.compile("\\s(if|for|while|switch|do|else if|try)\\s*\\(([^\\n]+)\\)\\s*(?:\\n|\\{)");
 
 	public static Nodo dibujar(String cod) {
 		cod = " " + cod;

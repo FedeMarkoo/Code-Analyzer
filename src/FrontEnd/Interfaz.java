@@ -25,7 +25,8 @@ import BackEnd.Metodo;
 import BackEnd.Packag;
 import BackEnd.Proyecto;
 import BackEnd.sourceP;
-import mcCabe.Algo;
+import mcCabe.Texto;
+
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 import java.awt.event.ItemListener;
@@ -574,16 +575,17 @@ public class Interfaz {
 					cc.setForeground(Color.WHITE);
 					cc.setBackground(Color.RED);
 				}
-				int fanInC = metodo.fanIn[0];
-				if (fanInC < 3)
+				int fanOut_C = metodo.fanIn[0];
+				if (fanOut_C < 3)
 					fanOutC.setBackground(Color.YELLOW);
-				else if (fanInC > 5)
+				else
 					fanOutC.setBackground(Color.GREEN);
-				int fanInT = metodo.fanIn[1];
-				if (fanInT < 3)
+				int fanOut_T = metodo.fanIn[1];
+				if (fanOut_T < 3)
 					fanOutT.setBackground(Color.YELLOW);
-				else if (fanInT > 5)
+				else 
 					fanOutT.setBackground(Color.GREEN);
+				
 				if (metodo.fanOut < 5)
 					fanIn.setBackground(Color.GREEN);
 				else if (metodo.fanOut > 12) {
@@ -603,13 +605,13 @@ public class Interfaz {
 				}
 				cc.setText("" + metodo.cc);
 				lineasCod.setText(metodo.lineasCodigo + "");
-				fanOutC.setText(fanInC + "");
+				fanOutC.setText(fanOut_C + "");
 				lineasComentarios.setText(metodo.lineasComentadas + "");
 				fanIn.setText(metodo.fanOut + "");
 				halsN.setText(metodo.halstead.N() + "");
 				halsN1.setText(String.format("%,.0f", metodo.halstead.N1));
 				halsN2.setText(String.format("%,.0f", metodo.halstead.N2));
-				fanOutT.setText((metodo.tipo.contains("Private") ? "-" : fanInT) + "");
+				fanOutT.setText((metodo.tipo.contains("Private") ? "-" : fanOut_T) + "");
 				tipo.setText(metodo.tipo);
 				textPane_10.setText(String.format("%,.0f", metodo.halstead.n1));
 				textPane_11.setText(metodo.halstead.n() + "");
@@ -631,16 +633,17 @@ public class Interfaz {
 			}
 
 			private void setCodigo(JEditorPane textArea, Metodo metodo) {
-				Pattern p = Pattern.compile("" + "\\W(?:else\\s+if|if|while|do|else|switch|for|case|try)\\W"
-						+ "|(?:\\|\\||\\&amp;\\&amp;)"
-						+ "|(?!r)(?!e)(?!t)(?!u)(?!r)(?!n)(?! )[\\w\\<\\>\\+\\-\\=\\*\\\\\\&\\|\\(\\) ]+\\?[^\\?:;]+:[^:;\\?]+;");
+				Pattern p = Pattern.compile("" + "(\\W)(else\\s+if|if|while|do|else|switch|for|case|try"
+						+ "|\\|\\||\\&amp;\\&amp;"
+						+ "|(?!r)(?!e)(?!t)(?!u)(?!r)(?!n)(?! )[\\w\\<\\>\\+\\-\\=\\*\\\\\\&\\|\\(\\) ]+\\?[^\\?:;]+:[^:;\\?]+;)(\\W)");
 				String codigo = p
 						.matcher(metodo.codigoCompleto.replace("&", "&amp;").replace(">", "&gt;").replace("<", "&lt;"))
-						.replaceAll("<span style=\"color:#FF0000\";>$0</span>");
-				codigo = codigo.replace("\t", "&#32&#32&#32&#32 ").replace("\n", "<br>");
-				codigo = codigo.replaceAll("(?!\")(\\/\\*.*\\*\\/|\\/\\/.+)(?!\\<)(?!\\b)(?!<\\r)(?!\\>)",
-						"<span style=\"color:#03AF06\";>$0</span>");
-				// .replaceAll("//|/*, replacement); prueba
+						.replaceAll("$1<span style=\"color:#FF0000\";>$2</span>$3");
+				codigo = codigo.replace("\t", "&#32&#32&#32&#32 ");
+				codigo = codigo.replaceAll("(?:\\/\\/.+)(?<!\n)", "<span style=\"color:#03AF06\";>$0</span>")
+						.replace("\n", "<br>");
+				codigo = codigo.replaceAll("\\/\\*.*\\*\\/", "<span style=\"color:#AFCFE9\";>$0</span>");
+				// .replaceAll("/|/, replacement); prueba
 				/**
 				 * LA IDEA ERA QUE RESALTE LOS OPERADORES Y LOS OPERANDOS... PERO FALLA FEO
 				 * for(String a : metodo.halstead.goperandos()) { codigo=codigo.replace(a,
@@ -660,7 +663,7 @@ public class Interfaz {
 					String codigoCompleto = codigoG;
 					codigoCompleto = codigoCompleto.substring(codigoCompleto.indexOf("{") + 1,
 							codigoCompleto.lastIndexOf("}"));
-					new Algo(" ").resolver(codigoCompleto);
+					new Texto(codigoCompleto);
 				} catch (Exception e) {
 				}
 			}

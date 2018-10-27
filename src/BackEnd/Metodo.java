@@ -139,8 +139,11 @@ public class Metodo {
 			clase.nivelAlerta = nivelAlerta;
 		if (cc > 10)
 			recomendacion += "Modularizar para reducir su complejidad\n";
-		if (fanIn[1] > 7)
-			recomendacion += "Testear el metodo de forma rigurosa\n";
+		if (fanIn[1] > 7) {
+			int i = (int) fanIn[1] * cc / 7;
+			recomendacion += "Testear el metodo de forma exaustiva (Metodo de McCabe con TER " + (i > 9 ? 9 : i)
+					+ "0%)\n";
+		}
 
 		int op = nivelAlerta > 5 ? 5 : nivelAlerta;
 		if (op >= 0 && cc > 1)
