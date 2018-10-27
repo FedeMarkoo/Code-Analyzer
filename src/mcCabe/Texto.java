@@ -5,9 +5,9 @@ import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
 
+import javax.swing.JEditorPane;
 import javax.swing.JFrame;
 import javax.swing.JScrollPane;
-import javax.swing.JTextPane;
 
 public class Texto {
 
@@ -45,12 +45,12 @@ public class Texto {
 		frame.setVisible(true);
 		frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		GridBagLayout gridBagLayout = new GridBagLayout();
-		gridBagLayout.columnWidths = new int[]{308, 0, 0};
-		gridBagLayout.rowHeights = new int[]{0, 0};
-		gridBagLayout.columnWeights = new double[]{0.0, 1.0, Double.MIN_VALUE};
-		gridBagLayout.rowWeights = new double[]{1.0, Double.MIN_VALUE};
+		gridBagLayout.columnWidths = new int[] { 365, 0, 0 };
+		gridBagLayout.rowHeights = new int[] { 0, 0 };
+		gridBagLayout.columnWeights = new double[] { 0.0, 1.0, Double.MIN_VALUE };
+		gridBagLayout.rowWeights = new double[] { 1.0, Double.MIN_VALUE };
 		frame.getContentPane().setLayout(gridBagLayout);
-		
+
 		JScrollPane scrollPane = new JScrollPane();
 		GridBagConstraints gbc_scrollPane = new GridBagConstraints();
 		gbc_scrollPane.insets = new Insets(0, 0, 0, 5);
@@ -58,19 +58,22 @@ public class Texto {
 		gbc_scrollPane.gridx = 0;
 		gbc_scrollPane.gridy = 0;
 		frame.getContentPane().add(scrollPane, gbc_scrollPane);
-		
-		JTextPane textPane = new JTextPane();
+
+		JEditorPane textPane = new JEditorPane();
+		textPane.setContentType("text/html");
 		scrollPane.setViewportView(textPane);
-		
+
+		JScrollPane scrollPane_2 = new JScrollPane();
+		GridBagConstraints gbc_scrollPane_2 = new GridBagConstraints();
+		gbc_scrollPane_2.fill = GridBagConstraints.BOTH;
+		gbc_scrollPane_2.gridx = 1;
+		gbc_scrollPane_2.gridy = 0;
+		frame.getContentPane().add(scrollPane_2, gbc_scrollPane_2);
+
 		Algo algo = new Algo(a);
-		GridBagConstraints gbc_algo = new GridBagConstraints();
-		gbc_algo.fill = GridBagConstraints.BOTH;
-		gbc_algo.gridx = 1;
-		gbc_algo.gridy = 0;
-		frame.getContentPane().add(algo, gbc_algo);
+		scrollPane_2.setViewportView(algo);
 		String replaceAll = algo.texto.replaceAll("\n\\s*", "\n");
-		textPane.setText(replaceAll);
-		
+		textPane.setText(replaceAll.replace("\n", "<br>"));
 	}
 
 }

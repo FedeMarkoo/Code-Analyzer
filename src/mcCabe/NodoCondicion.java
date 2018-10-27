@@ -2,39 +2,56 @@ package mcCabe;
 
 public class NodoCondicion extends Nodo {
 	public Nodo verdadero, falso;
+	public int cantV, cantF;
 
 	public NodoCondicion(String pregunta, String tipo, String sig, String completo) {
 		super(tipo + " - " + pregunta);
 		sig = sig.trim();
 		int largo = 0;
-		if (sig.startsWith("{")) {
+		int coma = sig.indexOf(";");
+		int llave = sig.indexOf("{");
+		if (llave < 0)
+			llave = 999999999;
+
+		if (llave < coma) {
 			String cod = extraerCodigo(sig);
 			largo = cod.length();
 			verdadero = Dibujar.dibujar(cod);
 		} else {
-			largo = sig.indexOf(";") + 1;
-			verdadero = Dibujar.dibujar(sig.substring(0, largo));
+			largo = sig.indexOf(";");
+			if (largo >= 0)
+				verdadero = Dibujar.dibujar(sig.substring(0, largo+1));
+			else
+				Dibujar.dibujar(sig);
 		}
-		String resto = sig.substring(largo);
-		if (resto.length() > 3)
-			resto += completo.substring(completo.indexOf(resto) + resto.length());
-		if (tipo.contains("if") && resto.trim().startsWith("else")) {
-			int coma = resto.indexOf(";");
-			int llave = resto.indexOf("{");
-			if (llave < 0)
-				llave = 999999999;
+		String resto = "";
+		try {
+			resto = sig.substring(largo + 1);
 
-			if (llave < coma) {
-				String cod = extraerCodigo(resto);
-				largo += cod.length();
-				falso = Dibujar.dibujar(cod, resto);
-			} else {
-				int largo2 = resto.indexOf(";");
-				largo += largo2;
-				falso = Dibujar.dibujar(resto.substring(0, largo2));
+			if (resto.length() > 3)
+				resto += completo.substring(completo.indexOf(resto) + resto.length());
+			if ((tipo.contains("if") && resto.trim().startsWith("else")) || tipo.contains("try")) {
+				coma = resto.indexOf(";");
+				llave = resto.indexOf("{");
+				if (llave < 0)
+					llave = 999999999;
+
+				if (llave < coma) {
+					String cod = extraerCodigo(resto);
+					largo += cod.length();
+					falso = Dibujar.dibujar(cod, resto);
+				} else {
+					int largo2 = resto.indexOf(";");
+					largo += largo2;
+					falso = Dibujar.dibujar(resto.substring(0, largo2));
+				}
 			}
+		} catch (Exception e) {
 		}
-		resto = sig.substring(largo);
+		if (largo >= 0)
+			resto = sig.substring(largo+1);
+		else
+			resto = sig;
 		siguiente = Dibujar.dibujar(resto);
 		if (siguiente.equals(falso) || resto.trim().startsWith("else"))
 			siguiente = null;

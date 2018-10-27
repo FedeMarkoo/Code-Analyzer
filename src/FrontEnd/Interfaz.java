@@ -640,7 +640,7 @@ public class Interfaz {
 						.matcher(metodo.codigoCompleto.replace("&", "&amp;").replace(">", "&gt;").replace("<", "&lt;"))
 						.replaceAll("$1<span style=\"color:#FF0000\";>$2</span>$3");
 				codigo = codigo.replace("\t", "&#32&#32&#32&#32 ");
-				codigo = codigo.replaceAll("(?:\\/\\/.+)(?<!\n)", "<span style=\"color:#03AF06\";>$0</span>")
+				codigo = codigo.replaceAll("(?:\\/\\/[^\"].+)(?<!\n)", "<span style=\"color:#03AF06\";>$0</span>")
 						.replace("\n", "<br>");
 				codigo = codigo.replaceAll("\\/\\*.*\\*\\/", "<span style=\"color:#AFCFE9\";>$0</span>");
 				// .replaceAll("/|/, replacement); prueba
@@ -665,6 +665,7 @@ public class Interfaz {
 							codigoCompleto.lastIndexOf("}"));
 					new Texto(codigoCompleto);
 				} catch (Exception e) {
+					e.printStackTrace();
 				}
 			}
 		});

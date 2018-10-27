@@ -42,7 +42,7 @@ public class Algo extends JPanel {
 	private String recorrerTexto(Nodo n) {
 		if (n == null)
 			return "";
-		String ret = n.nivel + "_\t" + n.codigo.trim().replaceAll("\n\\s*", "\n' \t") + "\n'\n";
+		String ret = n.nivel + "_&#09;" + n.codigo.trim().replaceAll("\n\\s*", "\n&#09;") + "\n\n";
 		if (n.getClass() == Nodo.class)
 			return ret + recorrerTexto(n.siguiente);
 
@@ -134,15 +134,16 @@ public class Algo extends JPanel {
 			Point pVerdadero, pFalso, pMayor, pSig;
 			NodoCondicion n2 = (NodoCondicion) n;
 //Por Verdadero
-			pVerdadero = nodo(g2, posCentral - 40, altura + 1, n2.verdadero, 't',
+			pVerdadero = nodo(g2, posCentral - 40 * (n2.cantV==0?1:n2.cantV), altura + 1, n2.verdadero, 't',
 					new Point(posCentral, (altura * 25) + 8));
 			if (pVerdadero.getY() != 0) {
-				g2.drawLine(posCentral, (altura * 25) + 8, posCentral - 40, (altura * 25) + 18);
+				g2.drawLine(posCentral, (altura * 25) + 8, posCentral - 40 * (n2.cantF==0?1:n2.cantV), (altura * 25) + 18);
 			}
 //Por Falso
-			pFalso = nodo(g2, posCentral + 40, altura + 1, n2.falso, 'f', new Point(posCentral, (altura * 25) + 8));
+			pFalso = nodo(g2, posCentral + 40 * (n2.cantF==0?1:n2.cantF), altura + 1, n2.falso, 'f',
+					new Point(posCentral, (altura * 25) + 8));
 			if (pFalso.getY() != 0) {
-				g2.drawLine(posCentral, (altura * 25) + 8, posCentral + 40, (altura * 25) + 18);
+				g2.drawLine(posCentral, (altura * 25) + 8, posCentral + 40 * (n2.cantF==0?1:n2.cantF), (altura * 25) + 18);
 			}
 
 			pMayor = new Point(posCentral, (int) Math.max(pFalso.getY(), pVerdadero.getY()));
@@ -155,8 +156,8 @@ public class Algo extends JPanel {
 							(int) pVerdadero.getY());
 				if (pFalso.getY() > 0 && pSig.getY() > 0)
 					g2.drawLine((int) pSig.getX(), (int) pSig.getY() - 15, (int) pFalso.getX(), (int) pFalso.getY());
-				//g2.drawLine(posCentral, (altura * 25) + 8, posCentral, (altura * 25) + 18);
-				}
+				// g2.drawLine(posCentral, (altura * 25) + 8, posCentral, (altura * 25) + 18);
+			}
 			return pMayor;
 
 		}
