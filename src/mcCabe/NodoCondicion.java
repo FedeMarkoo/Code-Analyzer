@@ -5,10 +5,7 @@ public class NodoCondicion extends Nodo {
 	public int cantV, cantF;
 
 	public NodoCondicion(String pregunta, String tipo, String sig, String completo) {
-
-		nivel = ++n + "";
-
-		
+		super(tipo + " (" + pregunta + ")");
 		sig = sig.trim();
 		int largo = 0;
 		int coma = sig.indexOf(";");
@@ -44,9 +41,12 @@ public class NodoCondicion extends Nodo {
 					largo += cod.length();
 					falso = Dibujar.dibujar(cod, resto);
 				} else {
-					int largo2 = coma;
+					int largo2 = coma + 1;
 					largo += largo2;
-					falso = Dibujar.dibujar(resto.substring(0, largo2));
+					if (resto.trim().startsWith("else if"))
+						falso = Dibujar.dibujar(resto);
+					else
+						falso = Dibujar.dibujar(resto.substring(0, largo2));
 				}
 			}
 		} catch (Exception e) {
@@ -58,7 +58,7 @@ public class NodoCondicion extends Nodo {
 		siguiente = Dibujar.dibujar(resto);
 		if (siguiente.equals(falso) || resto.trim().startsWith("else"))
 			siguiente = new Nodo(" ");
-		
+
 		if (verdadero == null)
 			verdadero = new Nodo(" ");
 

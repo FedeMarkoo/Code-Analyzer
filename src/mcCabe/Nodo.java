@@ -7,10 +7,6 @@ public class Nodo {
 	public String nivel;
 	public static int n = 0;
 
-	public Nodo() {
-
-	}
-
 	public Nodo(String cod) {
 		codigo = cod;
 		nivel = ++n + "";

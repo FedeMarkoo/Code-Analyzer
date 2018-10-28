@@ -631,7 +631,7 @@ public class Interfaz {
 				setCodigo(textArea, metodo);
 				codigoG = metodo.codigoCompleto;
 				nombreMcCabe = ((Archivo) archivos.getSelectedItem()) + " - " + ((Clase) clases.getSelectedItem())
-						+ " - " + metodo.nombre;
+						+ " - " + metodo;
 				recomendacion.setText(metodo.recomendacion);
 
 			}
