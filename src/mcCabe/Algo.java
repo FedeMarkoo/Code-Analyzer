@@ -133,12 +133,12 @@ public class Algo extends JPanel {
 			return new Point(p.x, (int) Math.max(p2.getY(), p.getY()));
 
 		} else {
-			Point pVerdadero, pFalso, pMayor, pSig;
+			Point pVerda, pFalso, pMayor, pSig;
 			NodoCondicion n2 = (NodoCondicion) n;
 //Por Verdadero
-			pVerdadero = nodo(g2, posCentral - 40 * (n2.cantV == 0 ? 1 : n2.cantV), altura + 1, n2.verdadero, 't',
+			pVerda = nodo(g2, posCentral - 40 * (n2.cantV == 0 ? 1 : n2.cantV), altura + 1, n2.verdadero, 't',
 					new Point(posCentral, (altura * 25) + 8));
-			if (pVerdadero.getY() != 0) {
+			if (pVerda.getY() != 0) {
 				g2.drawLine(posCentral, (altura * 25) + 8, posCentral - 40 * (n2.cantV == 0 ? 1 : n2.cantV),
 						(altura * 25) + 18);
 			}
@@ -150,18 +150,17 @@ public class Algo extends JPanel {
 						(altura * 25) + 18);
 			}
 
-			pMayor = new Point(posCentral, (int) Math.max(pFalso.getY(), pVerdadero.getY()));
+			pMayor = new Point(posCentral, (int) Math.max(pFalso.getY(), pVerda.getY()));
 
 			pSig = nodo(g2, posCentral, (int) ((pMayor.getY() / 25) + 1), n2.siguiente, 's',
 					new Point(posCentral, (altura * 25) + 8));
-			if (n2.siguiente != null) {
-				if (pVerdadero.getY() > 0 && pSig.getY() > 0)
-					g2.drawLine((int) pSig.getX(), (int) pSig.getY() - 15, (int) pVerdadero.getX(),
-							(int) pVerdadero.getY());
-				if (pFalso.getY() > 0 && pSig.getY() > 0)
-					g2.drawLine((int) pSig.getX(), (int) pSig.getY() - 15, (int) pFalso.getX(), (int) pFalso.getY());
-				// g2.drawLine(posCentral, (altura * 25) + 8, posCentral, (altura * 25) + 18);
-			}
+			// if (n2.siguiente != null) {
+			if (pVerda.getY() > 0 && pSig.getY() > 0)
+				g2.drawLine(posCentral, (int) (pMayor.getY() + 10), (int) pVerda.getX(), (int) pVerda.getY());
+			if (pFalso.getY() > 0 && pSig.getY() > 0)
+				g2.drawLine(posCentral, (int) (pMayor.getY() + 10), (int) pFalso.getX(), (int) pFalso.getY());
+			// g2.drawLine(posCentral, (altura * 25) + 8, posCentral, (altura * 25) + 18);
+			// }
 //			return  new Point(posCentral, (int) Math.max(pFalso.getY(), pVerdadero.getY()));
 			return new Point(posCentral, (int) Math.max(pMayor.getY(), pSig.getY()));
 		}

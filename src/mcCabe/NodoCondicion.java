@@ -18,7 +18,7 @@ public class NodoCondicion extends Nodo {
 			largo = cod.length();
 			verdadero = Dibujar.dibujar(cod);
 		} else {
-			largo = sig.indexOf(";");
+			largo = coma;
 			if (largo >= 0)
 				verdadero = Dibujar.dibujar(sig.substring(0, largo + 1));
 			else
@@ -41,7 +41,7 @@ public class NodoCondicion extends Nodo {
 					largo += cod.length();
 					falso = Dibujar.dibujar(cod, resto);
 				} else {
-					int largo2 = resto.indexOf(";");
+					int largo2 = coma;
 					largo += largo2;
 					falso = Dibujar.dibujar(resto.substring(0, largo2));
 				}

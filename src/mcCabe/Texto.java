@@ -8,6 +8,7 @@ import java.awt.Insets;
 import javax.swing.JEditorPane;
 import javax.swing.JFrame;
 import javax.swing.JScrollPane;
+import javax.swing.ScrollPaneConstants;
 
 public class Texto {
 
@@ -20,7 +21,7 @@ public class Texto {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
-					Texto window = new Texto("  ");
+					Texto window = new Texto(" ");
 					window.frame.setVisible(true);
 				} catch (Exception e) {
 					e.printStackTrace();
@@ -63,17 +64,17 @@ public class Texto {
 		textPane.setContentType("text/html");
 		scrollPane.setViewportView(textPane);
 
-		JScrollPane scrollPane_2 = new JScrollPane();
+		Algo algo = new Algo(a);
+		String replaceAll = algo.texto.replaceAll("\n\\s*", "\n");
+		textPane.setText(replaceAll.replace("\n", "<br>"));
+
+		JScrollPane scrollPane_2 = new JScrollPane(algo, ScrollPaneConstants.VERTICAL_SCROLLBAR_AS_NEEDED,
+				ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
 		GridBagConstraints gbc_scrollPane_2 = new GridBagConstraints();
 		gbc_scrollPane_2.fill = GridBagConstraints.BOTH;
 		gbc_scrollPane_2.gridx = 1;
 		gbc_scrollPane_2.gridy = 0;
 		frame.getContentPane().add(scrollPane_2, gbc_scrollPane_2);
-
-		Algo algo = new Algo(a);
-		scrollPane_2.setViewportView(algo);
-		String replaceAll = algo.texto.replaceAll("\n\\s*", "\n");
-		textPane.setText(replaceAll.replace("\n", "<br>"));
 	}
 
 }
