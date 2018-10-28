@@ -22,7 +22,7 @@ public class NodoCondicion extends Nodo {
 			if (largo >= 0)
 				verdadero = Dibujar.dibujar(sig.substring(0, largo+1));
 			else
-				Dibujar.dibujar(sig);
+				verdadero = Dibujar.dibujar(sig);
 		}
 		String resto = "";
 		try {
@@ -47,6 +47,7 @@ public class NodoCondicion extends Nodo {
 				}
 			}
 		} catch (Exception e) {
+			e.printStackTrace();
 		}
 		if (largo >= 0)
 			resto = sig.substring(largo+1);

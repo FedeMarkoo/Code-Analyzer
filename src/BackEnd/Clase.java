@@ -74,12 +74,29 @@ public class Clase {
 
 	private int nivel(String cod) {
 		if (modoAvanzado)
-			cod = cod.replaceAll("(?:\\(|,\\s*)\".*\"(?:\\)|,)", "()");
+			cod = eliminarStrings(cod);
 		int largo = cod.length();
 		int abiertas = largo - cod.replace("{", "").length();
 		int cerradas = largo - cod.replace("}", "").length();
 		int nivel = cerradas - abiertas;
 		return nivel;
+	}
+
+	private String eliminarStrings(String cod) {
+		String ret = "";
+		char[] c = cod.toCharArray();
+		Boolean t = true;
+		int i = -1, tam = cod.length() - 1;
+		while (++i < tam) {
+			if (t) {
+				ret += c[i];
+				if (c[i + 1] == '\"' && c[i] != '\\')
+					t = false;
+			} else
+				if (c[i + 1] == '\"' && c[i] != '\\')
+					t = true;
+		}
+		return ret;
 	}
 
 	private void getFuncionesDeClase(String clase, String cod) {

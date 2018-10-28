@@ -687,6 +687,7 @@ public class Interfaz {
 						}
 					}.start();
 				} catch (Exception e) {
+					e.printStackTrace();
 				}
 			}
 		});
