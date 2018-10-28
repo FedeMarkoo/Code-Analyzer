@@ -5,7 +5,10 @@ public class NodoCondicion extends Nodo {
 	public int cantV, cantF;
 
 	public NodoCondicion(String pregunta, String tipo, String sig, String completo) {
-		super(tipo + " - " + pregunta);
+
+		nivel = ++n + "";
+
+		
 		sig = sig.trim();
 		int largo = 0;
 		int coma = sig.indexOf(";");
@@ -54,9 +57,8 @@ public class NodoCondicion extends Nodo {
 			resto = sig;
 		siguiente = Dibujar.dibujar(resto);
 		if (siguiente.equals(falso) || resto.trim().startsWith("else"))
-			siguiente = null;
-		if (falso == null)
-			falso = new Nodo(" ");
+			siguiente = new Nodo(" ");
+		
 		if (verdadero == null)
 			verdadero = new Nodo(" ");
 

@@ -43,6 +43,7 @@ public class Interfaz {
 	private JFrame frame;
 	private JTextField textField;
 	private String codigoG = " ";
+	private String nombreMcCabe;
 
 	/**
 	 * Launch the application.
@@ -531,6 +532,7 @@ public class Interfaz {
 			}
 		});
 		metodos.addItemListener(new ItemListener() {
+
 			public void itemStateChanged(ItemEvent arg0) {
 				cc.setForeground(Color.BLACK);
 				fanIn.setForeground(Color.BLACK);
@@ -583,9 +585,9 @@ public class Interfaz {
 				int fanOut_T = metodo.fanIn[1];
 				if (fanOut_T < 3)
 					fanOutT.setBackground(Color.YELLOW);
-				else 
+				else
 					fanOutT.setBackground(Color.GREEN);
-				
+
 				if (metodo.fanOut < 5)
 					fanIn.setBackground(Color.GREEN);
 				else if (metodo.fanOut > 12) {
@@ -628,6 +630,8 @@ public class Interfaz {
 				textPane_18.setText(String.format("%.03f", porcentaje) + "%");
 				setCodigo(textArea, metodo);
 				codigoG = metodo.codigoCompleto;
+				nombreMcCabe = ((Archivo) archivos.getSelectedItem()) + " - " + ((Clase) clases.getSelectedItem())
+						+ " - " + metodo.nombre;
 				recomendacion.setText(metodo.recomendacion);
 
 			}
@@ -663,7 +667,7 @@ public class Interfaz {
 					String codigoCompleto = codigoG;
 					codigoCompleto = codigoCompleto.substring(codigoCompleto.indexOf("{") + 1,
 							codigoCompleto.lastIndexOf("}"));
-					new Texto(codigoCompleto);
+					new Texto(codigoCompleto, "Code Analizer - Grafico de McCabe: " + nombreMcCabe);
 				} catch (Exception e) {
 					e.printStackTrace();
 				}

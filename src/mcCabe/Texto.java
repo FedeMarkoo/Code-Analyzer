@@ -21,7 +21,7 @@ public class Texto {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
-					Texto window = new Texto(" ");
+					Texto window = new Texto(" ", " ");
 					window.frame.setVisible(true);
 				} catch (Exception e) {
 					e.printStackTrace();
@@ -33,8 +33,9 @@ public class Texto {
 	/**
 	 * Create the application.
 	 */
-	public Texto(String a) {
+	public Texto(String a, String titulo) {
 		initialize(a);
+		frame.setTitle(titulo);
 	}
 
 	/**

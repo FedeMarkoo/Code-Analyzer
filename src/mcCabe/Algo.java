@@ -42,7 +42,9 @@ public class Algo extends JPanel {
 	private String recorrerTexto(Nodo n) {
 		if (n == null)
 			return "";
-		String ret = n.nivel + "_&#09;" + n.codigo.trim().replaceAll("\n\\s*", "\n&#09;") + "\n\n";
+		String ret = "";
+		if (n.codigo.trim().length() > 3)
+			ret = n.nivel + "_&#09;" + n.codigo.trim().replaceAll("\n\\s*", "\n&#09;") + "\n&#8203;\n";
 		if (n.getClass() == Nodo.class)
 			return ret + recorrerTexto(n.siguiente);
 
@@ -57,7 +59,6 @@ public class Algo extends JPanel {
 	private Nodo n;
 
 	public void paint(Graphics g) {
-
 		setBackground(Color.WHITE);
 		if (!getSize().equals(new Dimension(700, 700))) {
 			// setSize(700, 700);
@@ -71,8 +72,10 @@ public class Algo extends JPanel {
 		g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
 		Dimension d = getSize();
 		int anchoMedio = d.width / 2;
-		nodo(g2, anchoMedio, 1, n, ' ', null);
-
+		if (n.siguiente != null)
+			nodo(g2, ((NodoCondicion) n.siguiente).cantV * 30 + 160, 1, n, ' ', null);
+		else
+			nodo(g2, anchoMedio, 1, n, ' ', null);
 	}
 
 	public void saveComponentAsJPEG(Component myComponent, String filename) {
@@ -93,7 +96,7 @@ public class Algo extends JPanel {
 	}
 
 	private Point nodo(Graphics2D g2, int posCentral, int altura, Nodo n, char o, Point a) {
-		if (n == null || (n.codigo.equals(" ") && n.siguiente == null))
+		if (n == null)
 			return new Point(0, 0);
 
 		g2.setPaint(Color.BLACK);
@@ -119,7 +122,8 @@ public class Algo extends JPanel {
 		g2.setPaint(Color.BLACK);
 		g2.draw(nodo);
 		control.draw(nodo);
-		g2.drawString(n.nivel, posCentral - 7, (altura * 25) + 6);
+		if (n.codigo.trim().length() > 3)
+			g2.drawString(n.nivel, posCentral - 7, (altura * 25) + 6);
 		control.drawString(n.nivel, posCentral - 7, (altura * 25) + 6);
 
 		if (n.getClass() == Nodo.class) {
@@ -155,11 +159,13 @@ public class Algo extends JPanel {
 			pSig = nodo(g2, posCentral, (int) ((pMayor.getY() / 25) + 1), n2.siguiente, 's',
 					new Point(posCentral, (altura * 25) + 8));
 			// if (n2.siguiente != null) {
+			int iniY = (int) (pMayor.getY() + 10);
 			if (pVerda.getY() > 0 && pSig.getY() > 0)
-				g2.drawLine(posCentral, (int) (pMayor.getY() + 10), (int) pVerda.getX(), (int) pVerda.getY());
+//				g2.draw(new QuadCurve2D.Double(posCentral, iniY, (posCentral + (int) pVerda.getX()) / 2 - 90,((int) pVerda.getY() + iniY) / 2, (int) pVerda.getX(), (int) pVerda.getY()));
+				g2.drawLine(posCentral, iniY, (int) pVerda.getX(), (int) pVerda.getY());
 			if (pFalso.getY() > 0 && pSig.getY() > 0)
-				g2.drawLine(posCentral, (int) (pMayor.getY() + 10), (int) pFalso.getX(), (int) pFalso.getY());
-			// g2.drawLine(posCentral, (altura * 25) + 8, posCentral, (altura * 25) + 18);
+//				g2.draw(new QuadCurve2D.Double(posCentral, iniY, (posCentral + (int) pFalso.getX()) / 2 + 90,((int) pFalso.getY() + iniY) / 2, (int) pFalso.getX(), (int) pFalso.getY()));
+				g2.drawLine(posCentral, iniY, (int) pFalso.getX(), (int) pFalso.getY());
 			// }
 //			return  new Point(posCentral, (int) Math.max(pFalso.getY(), pVerdadero.getY()));
 			return new Point(posCentral, (int) Math.max(pMayor.getY(), pSig.getY()));
