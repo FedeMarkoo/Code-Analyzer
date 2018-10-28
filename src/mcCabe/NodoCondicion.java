@@ -20,7 +20,7 @@ public class NodoCondicion extends Nodo {
 		} else {
 			largo = sig.indexOf(";");
 			if (largo >= 0)
-				verdadero = Dibujar.dibujar(sig.substring(0, largo+1));
+				verdadero = Dibujar.dibujar(sig.substring(0, largo + 1));
 			else
 				verdadero = Dibujar.dibujar(sig);
 		}
@@ -47,10 +47,9 @@ public class NodoCondicion extends Nodo {
 				}
 			}
 		} catch (Exception e) {
-			e.printStackTrace();
 		}
-		if (largo >= 0)
-			resto = sig.substring(largo+1);
+		if (largo >= 0 && largo < sig.length())
+			resto = sig.substring(largo + 1);
 		else
 			resto = sig;
 		siguiente = Dibujar.dibujar(resto);
@@ -60,6 +59,7 @@ public class NodoCondicion extends Nodo {
 			falso = new Nodo(" ");
 		if (verdadero == null)
 			verdadero = new Nodo(" ");
+
 	}
 
 	private String extraerCodigo(String cod) {

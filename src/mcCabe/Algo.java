@@ -129,8 +129,8 @@ public class Algo extends JPanel {
 				g2.drawLine(posCentral, (altura * 25) + 8, posCentral, (altura * 25) + 18);
 				control.drawLine(posCentral, (altura * 25) + 8, posCentral, (altura * 25) + 18);
 			}
-			return p;
-			//return new Point(p.x, (int) Math.max(p2.getY(), p.getY()));
+//			return p;
+			return new Point(p.x, (int) Math.max(p2.getY(), p.getY()));
 
 		} else {
 			Point pVerdadero, pFalso, pMayor, pSig;
@@ -162,7 +162,7 @@ public class Algo extends JPanel {
 					g2.drawLine((int) pSig.getX(), (int) pSig.getY() - 15, (int) pFalso.getX(), (int) pFalso.getY());
 				// g2.drawLine(posCentral, (altura * 25) + 8, posCentral, (altura * 25) + 18);
 			}
-
+//			return  new Point(posCentral, (int) Math.max(pFalso.getY(), pVerdadero.getY()));
 			return new Point(posCentral, (int) Math.max(pMayor.getY(), pSig.getY()));
 		}
 	}
