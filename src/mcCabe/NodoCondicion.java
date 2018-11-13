@@ -62,6 +62,43 @@ public class NodoCondicion extends Nodo {
 		if (verdadero == null)
 			verdadero = new Nodo(" ");
 
+//		if (pregunta.contains("&&") || pregunta.contains("||")) {
+//			codigo = "";
+//			String a = pregunta.split("\\&\\&|\\|\\|")[0];
+//			Nodo verdaderoT = verdadero, falsoT = falso;
+//			int i = pregunta.indexOf(a) + a.length();
+//			String operador = i == pregunta.length() ? "" : pregunta.substring(i, i + 2);
+//			if (operador.equals("&&")) {
+//				verdadero = new NodoCondicion(a, verdaderoT, falsoT, pregunta.substring(i + 2));
+//			} else if (operador.equals("||")) {
+//				falso = new NodoCondicion(a, verdaderoT, falsoT, pregunta);
+//			}
+//		}
+	}
+
+	public NodoCondicion() {
+		super("");
+	}
+
+	public NodoCondicion(String codigo, Nodo verdaderoT, Nodo falsoT, String pregunta) {
+		super(codigo);
+
+		if (pregunta.contains("&&") || pregunta.contains("||")) {
+			String a = pregunta.split("\\&\\&|\\|\\|")[0];
+			int i = pregunta.indexOf(a) + a.length();
+			String operador = i == pregunta.length() ? "" : pregunta.substring(i, i + 2);
+			if (operador.equals("&&")) {
+				falso = falsoT;
+				verdadero = new NodoCondicion(a, verdaderoT, falsoT, pregunta.substring(i + 2));
+			} else if (operador.equals("||")) {
+				verdadero = verdaderoT;
+				falso = new NodoCondicion(a, verdaderoT, falsoT, pregunta.substring(i + 2));
+			} else if (operador.equals("")) {
+				verdadero = verdaderoT;
+				falso = falsoT;
+			}
+		}
+
 	}
 
 	private String extraerCodigo(String cod) {

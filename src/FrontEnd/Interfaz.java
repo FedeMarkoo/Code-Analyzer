@@ -2,21 +2,32 @@ package FrontEnd;
 
 import java.awt.Color;
 import java.awt.EventQueue;
-
-import javax.swing.JFrame;
-import java.awt.GridBagLayout;
-import javax.swing.JTextField;
+import java.awt.Font;
 import java.awt.GridBagConstraints;
+import java.awt.GridBagLayout;
+import java.awt.Insets;
+import java.awt.Toolkit;
+import java.awt.datatransfer.DataFlavor;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.event.ItemEvent;
+import java.awt.event.ItemListener;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
+import java.util.regex.Pattern;
 
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JEditorPane;
 import javax.swing.JFileChooser;
-
-import java.awt.Insets;
+import javax.swing.JFrame;
+import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
+import javax.swing.JTextField;
 import javax.swing.JTextPane;
+import javax.swing.SwingConstants;
+import javax.swing.UIManager;
 
 import BackEnd.Analizador;
 import BackEnd.Archivo;
@@ -26,17 +37,6 @@ import BackEnd.Packag;
 import BackEnd.Proyecto;
 import BackEnd.sourceP;
 import mcCabe.Texto;
-
-import java.awt.event.ActionListener;
-import java.awt.event.ActionEvent;
-import java.awt.event.ItemListener;
-import java.util.regex.Pattern;
-import java.awt.event.ItemEvent;
-import javax.swing.JLabel;
-import javax.swing.SwingConstants;
-import javax.swing.UIManager;
-
-import java.awt.Font;
 
 public class Interfaz {
 
@@ -106,6 +106,7 @@ public class Interfaz {
 		panel_1.setLayout(gbl_panel_1);
 
 		textField = new JTextField();
+
 		GridBagConstraints gbc_textField = new GridBagConstraints();
 		gbc_textField.insets = new Insets(0, 0, 0, 5);
 		gbc_textField.fill = GridBagConstraints.BOTH;
@@ -464,18 +465,31 @@ public class Interfaz {
 
 		JButton graficarBtn = new JButton("Graficar");
 
+		textField.addKeyListener(new KeyAdapter() {
+			@Override
+			public void keyPressed(KeyEvent arg0) {
+				if (arg0.isControlDown() && arg0.getKeyCode() == 86) {
+					new Thread() {
+						public void run() {
+							try {
+								textField.setText(((String) Toolkit.getDefaultToolkit().getSystemClipboard()
+										.getData(DataFlavor.stringFlavor)).replace("\"", ""));
+								analizar(proyecto);
+							} catch (Exception e) {
+							}
+						}
+					}.start();
+				}
+			}
+		});
+
 		analizar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				new Thread() {
 					public void run() {
-						Analizador a = new Analizador(textField.getText());
-						proyecto.removeAllItems();
-						for (Proyecto p : a.proyectos.get()) {
-							proyecto.addItem(p);
-						}
+						analizar(proyecto);
 					}
 				}.start();
-
 			}
 		});
 
@@ -683,11 +697,7 @@ public class Interfaz {
 					textField.setText(f.getSelectedFile().getAbsolutePath());
 					new Thread() {
 						public void run() {
-							Analizador a = new Analizador(textField.getText());
-							proyecto.removeAllItems();
-							for (Proyecto p : a.proyectos.get()) {
-								proyecto.addItem(p);
-							}
+							analizar(proyecto);
 						}
 					}.start();
 				} catch (Exception e) {
@@ -751,5 +761,36 @@ public class Interfaz {
 	private void tooltip(JLabel l, String text) {
 		text = text.replace("\n", "<br>");
 		l.setToolTipText("<html><p width=\"340\">" + text + "</p></html>");
+	}
+
+	@SuppressWarnings("deprecation")
+	public void analizar(JComboBox<Proyecto> proyecto) {
+		Thread thread = new Thread() {
+			public void run() {
+				while (true) {
+					try {
+						sleep(250);
+						frame.setTitle("Code Analyzer   Analizando");
+						sleep(250);
+						frame.setTitle("Code Analyzer   Analizando.");
+						sleep(250);
+						frame.setTitle("Code Analyzer   Analizando..");
+						sleep(250);
+						frame.setTitle("Code Analyzer   Analizando...");
+					} catch (Exception e) {
+					}
+				}
+			}
+		};
+		thread.start();
+
+		Analizador a = new Analizador(textField.getText());
+		proyecto.removeAllItems();
+		thread.stop();
+		frame.setTitle("Code Analyzer");
+		for (Proyecto p : a.proyectos.get()) {
+			proyecto.addItem(p);
+		}
+		
 	}
 }

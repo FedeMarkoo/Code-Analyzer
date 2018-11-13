@@ -25,7 +25,7 @@ public class Dibujar {
 	public static Nodo resolver(String cod) {
 		Nodo.n = 0;
 		Nodo n = dibujar(cod);
-
+		//n=simplificar(n);
 		contarHijos(n);
 		return n;
 	}

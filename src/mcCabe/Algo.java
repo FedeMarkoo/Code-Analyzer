@@ -44,7 +44,7 @@ public class Algo extends JPanel {
 			return "";
 		String ret = "";
 		if (n.codigo.trim().length() > 3)
-			ret = n.nivel + "_&#09;" + n.codigo.trim().replaceAll("\n\\s*", "\n&#09;") + "\n&#8203;\n";
+			ret = n.nivel + "_&#09;" + n.codigo.trim().replaceAll("\n\\s*", "\n&#09;") + "\n";//&#8203;\n";
 		if (n.getClass() == Nodo.class)
 			return ret + recorrerTexto(n.siguiente);
 
